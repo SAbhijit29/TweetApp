@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       this.invalidLogin = true;
     });
   }
+  
 
   isUserAuthenticated() {
     const token = localStorage.getItem("jwt");
