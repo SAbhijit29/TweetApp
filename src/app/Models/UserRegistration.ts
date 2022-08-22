@@ -1,10 +1,10 @@
 export class userRegistration{
-    id:any;
+   // id:any;
     firstname?:string;
     lastname?:string;
     username?:string;
     password?:string;
     confirmPassword?:string;
-    phone:any;
+    phone?:any;
     email?:string;
 }
