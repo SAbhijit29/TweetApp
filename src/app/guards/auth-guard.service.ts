@@ -19,4 +19,9 @@ export class AuthGuard implements CanActivate {
    }
    return false;
   }
+
+  getAuthToken(){
+    const tkn = localStorage.getItem("jwt");
+    return tkn;
+  }
 }
