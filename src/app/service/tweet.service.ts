@@ -12,6 +12,8 @@ export class TweetService {
   url = configurl.apiServer.url + '/api/v1.0/tweets/';
   username: string | null;
 
+  
+
   constructor(private http: HttpClient) {
     this.username = localStorage.getItem("username");
    }
@@ -28,5 +30,11 @@ export class TweetService {
         {'Content-Type': 'application/json'}
         ) };
         return this.http.post(this.url+this.username+"/add",tweet,httpHeaders);
+    }
+    liketweet(tweetId:string,res:boolean):Observable<any>{
+      const httpHeaders = { headers:new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        ) };
+        return this.http.patch(this.url+tweetId+"/update/"+res,httpHeaders);
     }
 }

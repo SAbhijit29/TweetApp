@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login/login.component';
 import { SignupComponent } from './signup/signup/signup.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonInterceptor } from './common.interceptor';
+import { HomeComponent } from './Component/home/home.component';
 
 
 // const routes: Routes = [ 
@@ -30,10 +31,12 @@ export function tokenGetter() {
     AppComponent,
     HomepageComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
+   // BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,

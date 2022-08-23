@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("username", username);
       this.invalidLogin = false;
       this.toastr.success("Logged In successfully");
-      this.router.navigate(["/registration"]);
+      this.router.navigate([""]);
     }, err => {
       this.invalidLogin = true;
       this.toastr.error(err);
