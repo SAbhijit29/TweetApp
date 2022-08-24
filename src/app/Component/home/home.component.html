@@ -11,11 +11,10 @@
                 <p>Profile</p>
             </div>
             <div>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-                <a class="btn-tweet">Tweet</a>
+                <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+    Popup using Angular and Bootstrap
+</button> -->
+                <a class="btn-tweet" (click)="open(content)">Tweet</a>
             </div>
         </div>
         <br>
@@ -29,7 +28,7 @@
                 <a (click)="postTweet(PostTweetForm.value)" type="submit" class="btn-post-tweet">Tweet</a>
             </form>
         </div>
-        <div class="tweet-body" *ngFor="let tweet of allTweets.slice(0, 5) ">
+        <div class="tweet-body" *ngFor="let tweet of allTweets ">
             <div class="d-flex">
                 <img class="img-avatar" src="https://i.pravatar.cc/150?img=3">
                 <div class="d-flex justify-content-evenly">
@@ -70,7 +69,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="d-flex mt-3" *ngFor="let user of allUser">
+        <div class="d-flex mt-3" *ngFor="let user of allUser.slice(0,5)">
             <img class="img-avatar" src="https://i.pravatar.cc/150?img=3">
             <div class="user-box ml-2">
                 <p class="mb-1">{{user.fullname}}</p>
@@ -80,26 +79,25 @@
     </div>
 </div>
 
+<ng-template #content let-modal>
+    <div class="modal-header">
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="close x-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  
+            <span aria-hidden="true">
+                ×
+            </span>
         </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+    </div>
+    <div class="modal-body">
+        <div class="post-tweet-box d-flex">
+            <img class="my-img-avatar" src="https://i.pravatar.cc/150?img=3">
+            <form [formGroup]="PostTweetForm">
+                <textarea placeholder="What's Going On" formControlName="tweetText" class="post-tweet modal-post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
+            </form>
         </div>
     </div>
-</div>
+    <div class="modal-footer">
+        <a (click)="postTweet(PostTweetForm.value)" type="submit" class="btn-post-tweet ml-160">Tweet</a>
+    </div>
+</ng-template>

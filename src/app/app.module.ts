@@ -13,6 +13,7 @@ import { SignupComponent } from './signup/signup/signup.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonInterceptor } from './common.interceptor';
 import { HomeComponent } from './Component/home/home.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 // const routes: Routes = [ 
@@ -53,7 +54,8 @@ export function tokenGetter() {
     // MatCheckboxModule,
     // MatInputModule,
     // MatFormFieldModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [AuthGuard,
     {

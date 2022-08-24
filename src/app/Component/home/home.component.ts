@@ -7,6 +7,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,9 @@ export class HomeComponent implements OnInit {
   isLike = false;
   colorChange: boolean=false;
   searchTerm = '';
+  closeResult = '';
 
-  constructor(private formbulider: UntypedFormBuilder,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
+  constructor(private formbulider: UntypedFormBuilder,private modalService: NgbModal,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
 
   ngOnInit(): void {
     this.getAllUser();
@@ -74,6 +76,7 @@ export class HomeComponent implements OnInit {
         this.toastr.success(res.message);
         this.getAllTweets();
         this.ClearTweet();
+        this.modalService.dismissAll();
       },
       error:(err:any)=>{
         this.toastr.warning(err.error.message);
@@ -98,8 +101,6 @@ export class HomeComponent implements OnInit {
   }
 
   likeTweet(tweetId:string){
-    debugger
-    this.isLike = !this.isLike;
     this.tweetService.liketweet(tweetId).subscribe({
       next:(res:any)=>{
         console.log(res);
@@ -118,4 +119,24 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+
+  open(content:any) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result)  => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = 
+         `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }
