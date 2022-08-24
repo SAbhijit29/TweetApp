@@ -6,10 +6,13 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ToastNoAnimationModule,ToastNoAnimation, ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CommonInterceptor } from './common.interceptor';
 import { AuthGuard } from './guards/auth-guard.service';
 import { HomepageComponent } from './Homepage/homepage/homepage.component';
 import { LoginComponent } from './login/login/login.component';
+import { SignupComponent } from './signup/signup/signup.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonInterceptor } from './common.interceptor';
+import { HomeComponent } from './Component/home/home.component';
 
 
 // const routes: Routes = [ 
@@ -27,11 +30,12 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomepageComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-   // BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -44,11 +48,12 @@ export function tokenGetter() {
       }
   }),
   ToastrModule.forRoot(),
-    FormsModule
+    FormsModule,
     // MatButtonModule, 
     // MatCheckboxModule,
     // MatInputModule,
     // MatFormFieldModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthGuard,
     {

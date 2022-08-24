@@ -11,11 +11,15 @@
                 <p>Profile</p>
             </div>
             <div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
                 <a class="btn-tweet">Tweet</a>
             </div>
         </div>
         <br>
-        <a class="btn-logout" (click)="logOut()">Logout</a>
+        <a class="btn-logout" type="submit" (click)="logOut()">Logout</a>
     </div>
     <div class="box2">
         <div class="post-tweet-box d-flex">
@@ -25,7 +29,7 @@
                 <a (click)="postTweet(PostTweetForm.value)" type="submit" class="btn-post-tweet">Tweet</a>
             </form>
         </div>
-        <div class="tweet-body" *ngFor="let tweet of allTweets">
+        <div class="tweet-body" *ngFor="let tweet of allTweets.slice(0, 5) ">
             <div class="d-flex">
                 <img class="img-avatar" src="https://i.pravatar.cc/150?img=3">
                 <div class="d-flex justify-content-evenly">
@@ -42,17 +46,11 @@
                     <img class="img-tweet" src="https://upload.wikimedia.org/wikipedia/commons/5/50/Twitter_Reply.png">
                     <p>Reply</p>
                 </div>
-                <div *ngIf=";else other_content" class="d-flex col-6">
+                <div class="d-flex col-6">
                     <img (click)="likeTweet(tweet.id)" class="img-tweet" src="https://img.icons8.com/material-outlined/452/filled-like.png">
-                    <!-- <p>Like</p> -->
+                    <p>Like</p>
                     <p>{{tweet.likes}}</p>
                 </div>
-                <ng-template #other_content>
-                    <img (click)="likeTweet(tweet.id)" class="img-tweet" src="../../../assets/Icons/icons8-heart-30.png">
-                    <!-- <p>Dislike</p> -->
-                    <p>{{tweet.likes}}</p>
-                </ng-template>
-
             </div>
         </div>
     </div>
@@ -77,6 +75,30 @@
             <div class="user-box ml-2">
                 <p class="mb-1">{{user.fullname}}</p>
                 <p class="mt-1">@{{user.username}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

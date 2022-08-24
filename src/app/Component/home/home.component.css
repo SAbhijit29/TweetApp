@@ -1,76 +1,63 @@
-.box1 {
+.box1{
     margin-top: 10px;
     width: 20%;
     position: fixed;
-    left: 0;
+    left:0;
     border-right: 1px solid rgba(0, 0, 0, 0.123);
 }
-
-.main-logo {
+.main-logo{
     height: 60px;
     width: 60px;
     margin-bottom: 70px;
     margin-left: 25px;
 }
-
-.nav-values {
+.nav-values{
     width: 60%;
     font-size: 20px;
     font-weight: 500;
     margin: 30px auto 350px auto;
 }
-
-.nav-icon {
+.nav-icon{
     height: 25px;
     width: 25px;
     margin-right: 3px;
 }
-
-.nav-icon1 {
+.nav-icon1{
     margin-top: 5px;
     height: 20px;
     width: 20px;
     margin-right: 6px;
 }
-
-.box2 {
+.box2{
     width: 55%;
     position: relative;
     left: 20%;
 }
-
-.img-avatar {
-    border-radius: 100%;
-    ;
+.img-avatar{
+    border-radius: 100%;;
     width: 50px;
     height: 50px;
 }
-
-.my-img-avatar {
-    border-radius: 100%;
-    ;
+.my-img-avatar{
+    border-radius: 100%;;
     width: 80px;
     height: 80px;
     margin: 0 20px;
 }
-
-.user-box {
+.user-box{
     margin-left: 10px;
 }
-
-.btn-tweet {
+.btn-tweet{
     background-color: rgb(29, 155, 240);
     color: white;
     padding: 10px 50px;
     border-radius: 25px;
     text-decoration: none;
 }
-
-.profile-nav {
+.profile-nav{
     margin-bottom: 40px;
 }
-
-.btn-logout {
+.btn-logout{
     background-color: black;
     color: white;
     padding: 10px 70px;
@@ -80,39 +67,34 @@
     font-weight: 500;
     margin: 0 0 0 35px;
 }
-
-.post-tweet {
+.post-tweet{
     height: 250px;
     width: 650px !important;
     margin-bottom: 50px;
 }
 
-.img-tweet {
+.img-tweet{
     height: 25px;
     width: 25px;
     margin-right: 20px;
 }
-
-.tweet-body {
+.tweet-body{
     width: 90%;
     margin: 0 auto;
     padding: 25px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.123);
     border-bottom: 1px solid rgba(0, 0, 0, 0.123);
 }
-
-.post-tweet-box {
+.post-tweet-box{
     padding: 25px;
 }
-
-.post-tweet {
+.post-tweet{
     width: 80%;
     height: 64px;
     border: none;
     font-size: 26px;
 }
-
-.btn-post-tweet {
+.btn-post-tweet{
     background-color: rgb(29, 155, 240);
     color: white;
     padding: 10px 50px;
@@ -121,7 +103,7 @@
     margin-left: 510px;
 }
 
-.box3 {
+.box3{
     width: 25%;
     position: fixed;
     right: 0;

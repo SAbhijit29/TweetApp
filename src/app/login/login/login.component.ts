@@ -1,9 +1,10 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
+import { userRegistration } from 'src/app/Models/UserRegistration';
 import configurl from '../../../assets/config/config.json';
 
 
@@ -15,13 +16,16 @@ import configurl from '../../../assets/config/config.json';
 export class LoginComponent implements OnInit {
 
   invalidLogin?: boolean;
+  registrationForm:any;
 
   url = configurl.apiServer.url + '/api/v1.0/';
 
-  constructor(private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
+  constructor(private formbulider: FormBuilder,private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
   }
+
 
   public login = (form: NgForm) => {
     const credentials = JSON.stringify(form.value);
@@ -42,7 +46,6 @@ export class LoginComponent implements OnInit {
       this.toastr.error(err);
     });
   }
-  
   
 
   isUserAuthenticated() {

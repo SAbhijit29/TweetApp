@@ -90,10 +90,11 @@ export class SignupComponent implements OnInit {
         next:(res:any)=>{
           console.log(res)
           this.toastr.success(res.message);
+          this.router.navigate(['/login']);
         },
         error:(err)=>{
           console.log(err)
-          this.toastr.error(err.error.title)
+          this.toastr.error(err.error.title);
         },
         complete() {
             console.log("complete")

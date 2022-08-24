@@ -8,7 +8,6 @@ import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,29 +15,27 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  allUser:users[] = [];
+  allUser:users[]=[];
   allTweets:any = [];
   today:Date = new Date();
   PostTweetForm:any;
   flag:boolean = false;
-  searchTerm = '';
   filteredUser: users[]=[];
   isLike = false;
   colorChange: boolean=false;
+  searchTerm = '';
 
-  constructor(private formbulider: FormBuilder,private toastr: ToastrService,private router:Router,
-    private userService: UserRegistrationService,private tweetService:TweetService) { }
+  constructor(private formbulider: FormBuilder,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
 
   ngOnInit(): void {
     this.getAllUser();
     this.getAllTweets();
  
     this.PostTweetForm = this.formbulider.group({
-      tweetText: ['', [Validators.required]],
+      tweetText: [null, [Validators.required]],
       tags: [null]
     });
   }
-
 
   getAllUser(){
     this.userService.getAllUsers().subscribe({
@@ -50,16 +47,6 @@ export class HomeComponent implements OnInit {
         console.log("get all user completed")
       },
     })
-  }
-  //filtered.username.includes(target)
-
-  search(value: string) {
-    if(value && value.length>0){
-      const filteredProducts = this.allUser.filter(filtered=>filtered.username.toLowerCase().includes(value))
-      this.filteredUser = filteredProducts;
-    }
-    else
-    this.filteredUser=[];
   }
 
   getAllTweets(){
@@ -80,6 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   postTweet(Tweet:tweets){
+    
     this.tweetService.postTweet(Tweet).subscribe({
       next:(res:any)=>{
         console.log(res);
@@ -87,23 +75,11 @@ export class HomeComponent implements OnInit {
         this.getAllTweets();
         this.ClearTweet();
       },
-      error:(err:any)=>console.error(err),
+      error:(err:any)=>{
+        this.toastr.warning(err.error.message);
+        console.error(err)
+      },
       complete() {
-          console.log("Post Tweeted success");
-      }
-    })
-  }
-
-  likeTweet(tweetId:string){
-    debugger
-    this.isLike = !this.isLike;
-    this.tweetService.liketweet(tweetId,this.isLike).subscribe({
-      next:(res:any)=>{
-        console.log(res);
-        this.toastr.success(res.message);
-      },error:(err:any)=>console.error(err),
-      complete:()=> {
-          //this.isLike=true;
           console.log("Post Tweeted success");
       }
     })
@@ -112,7 +88,32 @@ export class HomeComponent implements OnInit {
     this.PostTweetForm.reset();
   }
 
-   logOut() {
+  search(value: string) {
+    if(value && value.length>0){
+      const filteredProducts = this.allUser.filter(filtered=>filtered.username.toLowerCase().includes(value))
+      this.filteredUser = filteredProducts;
+    }
+    else
+    this.filteredUser=[];
+  }
+
+  likeTweet(tweetId:string){
+    debugger
+    this.isLike = !this.isLike;
+    this.tweetService.liketweet(tweetId).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.toastr.success(res.result);
+        this.getAllTweets();
+      },error:(err:any)=>console.error(err.error.message),
+      complete:()=> {
+          //this.isLike=true;
+          console.log("Post Tweeted success");
+      }
+    })
+  }
+
+  logOut() {
     localStorage.removeItem("jwt");
     this.router.navigate(['/login']);
   }

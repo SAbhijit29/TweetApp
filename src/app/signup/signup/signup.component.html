@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Tweet App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -114,38 +114,6 @@
                 </tbody>
             </table>
         </div>
-
-
-
-        <!-- <div>
-            <div class="alert alert-success" style="text-align: center;"><b>Product List</b></div>
-            <div class="table-responsive" style="text-align: center;">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Cost</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let prd of ProductList | async; index as i">
-                            <th scope="row">{{ i + 1 }}</th>
-                            <td>{{prd.productName}}</td>
-                            <td>{{prd.productDescription}}</td>
-                            <td>{{prd.productCost}}</td>
-                            <td>{{prd.productStock}}</td>
-                            <td><button type="button" class="btn1" matTooltip="Click Edit Button" (click)='ProductDetailsToEdit(prd.productId)'>Edit</button> |
-                                <button type="button" class="btn1" matTooltip="Click Delete Button" (click)="DeleteProduct(prd.productId)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
     </div>
 
 </form>
@@ -178,4 +146,50 @@
         </div>
         <br />
     </div>
-</form>
+</form> -->
+
+
+<h2>..</h2>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        <form class="form-signin" [formGroup]="registrationForm">
+            <h1>Register with us..</h1>
+
+            <input type="text" class="form-control" id="txtfirstName" formControlName="firstname" placeholder="firstname">
+            <input type="text" class="form-control" id="txtlastName" formControlName="lastname" placeholder="lastname">
+            <input type="text" class="form-control" id="txtuserName" formControlName="username" placeholder="username">
+            <input type="text" class="form-control" id="txtemail" formControlName="email" placeholder="email">
+            <input type="text" class="form-control" id="txtpassword" formControlName="password" placeholder="password">
+            <input type="text" class="form-control" id="txtconfirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
+            <input type="text" class="form-control" id="txtphone" formControlName="phone" placeholder="phone">
+
+            <div class="d-flex">
+                <button (click)="postUser(registrationForm.value)" class="button-pd  btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+                <button type="submit" class="btn btn-lg btn-block btn-primary  " (click)="Clear(registrationForm.value)">Clear</button>
+            </div>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Already have an account with us? Click here..</p>
+                <button routerLink="/login" class="ghost" id="signIn">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>..</h2>
+
+<footer>
+    <p>
+        Created with <i class="fa fa-heart"></i> by
+        <a target="_blank" href="https://florin-pop.com">Florin Pop</a> - Read how I created this and how you can join the challenge
+        <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+    </p>
+</footer>
