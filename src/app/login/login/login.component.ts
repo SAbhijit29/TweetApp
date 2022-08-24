@@ -1,6 +1,6 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   url = configurl.apiServer.url + '/api/v1.0/';
 
-  constructor(private formbulider: FormBuilder,private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
+  constructor(private formbulider: UntypedFormBuilder,private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 

@@ -3,7 +3,7 @@ import { users } from 'src/app/Models/Users';
 import { TweetService } from 'src/app/service/tweet.service';
 import { UserRegistrationService } from 'src/app/service/user-registration.service';
 import { FormControl } from '@angular/forms';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   colorChange: boolean=false;
   searchTerm = '';
 
-  constructor(private formbulider: FormBuilder,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
+  constructor(private formbulider: UntypedFormBuilder,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
 
   ngOnInit(): void {
     this.getAllUser();

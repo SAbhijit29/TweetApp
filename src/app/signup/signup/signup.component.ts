@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
   token: string | null="";
   username:string | null="";
 
-  constructor(private formbulider: FormBuilder, private jwtHelper : JwtHelperService,private tweetService:TweetService
+  constructor(private formbulider: UntypedFormBuilder, private jwtHelper : JwtHelperService,private tweetService:TweetService
     ,private toastr: ToastrService,private router: Router,private http: HttpClient ,private userservice:UserRegistrationService   ) { }
 
   ngOnInit(): void {
