@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { userRegistration } from 'src/app/Models/UserRegistration';
 import configurl from '../../../assets/config/config.json';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   registrationForm:any;
 
   url = configurl.apiServer.url + '/api/v1.0/';
+  username: any;
 
   constructor(private formbulider: UntypedFormBuilder,private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
 
@@ -26,26 +28,34 @@ export class LoginComponent implements OnInit {
 
   }
 
-
   public login = (form: NgForm) => {
     const credentials = JSON.stringify(form.value);
     this.http.post(this.url +"login", credentials, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
-    }).subscribe(response => {
-      const token = (<any>response).token;
-      localStorage.setItem("jwt", token);
-      const username = (<any>response).username;
-      localStorage.setItem("username", username);
-      this.invalidLogin = false;
-      this.toastr.success("Logged In successfully");
-      this.router.navigate([""]);
-    }, err => {
-      this.invalidLogin = true;
-      this.toastr.error(err);
-    });
+    }).subscribe({
+      next:(response:any)=>{
+        const token = (<any>response).token;
+        localStorage.setItem("jwt", token);
+        const username = (<any>response).username;
+        this.username = username;
+        localStorage.setItem("username", username);
+        this.invalidLogin = false;
+        this.toastr.success("Logged In successfully");
+        this.router.navigate([""]);
+      },
+      error:(err:any)=>{
+        this.invalidLogin = true;
+        this.toastr.error(err.error);
+      },
+      complete:()=>{
+        const username = this.username;
+        localStorage.setItem("username", username);
+      }
+    })
   }
+  
   
 
   isUserAuthenticated() {

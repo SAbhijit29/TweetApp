@@ -14,6 +14,7 @@ import { userRegistration } from '../Models/UserRegistration';
 export class UserRegistrationService {
 
   url = configurl.apiServer.url + '/api/v1.0/users/';
+  urlLogin = configurl.apiServer.url + '/api/v1.0/login/';
 
   constructor(private http: HttpClient) { }
 
@@ -28,4 +29,5 @@ export class UserRegistrationService {
       ) };
     return this.http.get(this.url+'allUsers',httpHeaders);
   }
+
 }

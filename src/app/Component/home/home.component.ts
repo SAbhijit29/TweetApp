@@ -8,6 +8,8 @@ import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { AuthGuard } from 'src/app/guards/auth-guard.service';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +18,10 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class HomeComponent implements OnInit {
 
+  reply:string[]=[];
+  listReply:any[]=[];
   allUser:users[]=[];
-  allTweets:any = [];
+  allTweets:tweets[] = [];
   today:Date = new Date();
   PostTweetForm:any;
   flag:boolean = false;
@@ -26,10 +30,20 @@ export class HomeComponent implements OnInit {
   colorChange: boolean=false;
   searchTerm = '';
   closeResult = '';
+  username:any;
+  ex: boolean=false;
+  myDate: Date = new Date();
+  count: any;
 
-  constructor(private formbulider: UntypedFormBuilder,private modalService: NgbModal,private router:Router,private toastr: ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
+  constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
+    private modalService: NgbModal,private router:Router,private toastr: ToastrService,
+    private userService: UserRegistrationService,private tweetService:TweetService)
+   { 
+    
+   }
 
   ngOnInit(): void {
+  
     this.getAllUser();
     this.getAllTweets();
  
@@ -37,9 +51,14 @@ export class HomeComponent implements OnInit {
       tweetText: [null, [Validators.required]],
       tags: [null]
     });
+        this.username = this.auth.getUsername();
+     this.auth.content.subscribe((res:any)=>
+      console.log(res)
+      )
   }
 
   getAllUser(){
+    
     this.userService.getAllUsers().subscribe({
       next:(res:any)=>{
         this.allUser = res.result;
@@ -49,6 +68,18 @@ export class HomeComponent implements OnInit {
         console.log("get all user completed")
       },
     })
+  }
+
+  checkLiked(likedBy:any){
+
+    if(likedBy!=null){
+      if(likedBy.find((x:any)=>x.match(this.username))!== undefined){
+        return true;
+      }
+      return false;
+    }
+   
+    return false;
   }
 
   getAllTweets(){
@@ -108,14 +139,42 @@ export class HomeComponent implements OnInit {
         this.getAllTweets();
       },error:(err:any)=>console.error(err.error.message),
       complete:()=> {
-          //this.isLike=true;
           console.log("Post Tweeted success");
       }
     })
   }
 
+  getReplies(tweetId:string){
+    this.listReply=[];
+    this.tweetService.getReply(tweetId).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+      
+         this.listReply.push(res.result);
+        var result = res.result.replyID;
+        if(result!=null || result != undefined){
+          result.forEach((element:any) => {
+            if(element!=""){
+              this.reply.push(element);
+              this.getReplies(element);
+            }
+          });
+        }
+        console.log(this.listReply);
+      },
+      error:(err:any)=>{
+        
+      },
+      complete:()=> {
+       // this.listReply;
+;      }
+    })
+  }
+
   logOut() {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 

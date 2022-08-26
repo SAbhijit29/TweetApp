@@ -14,13 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonInterceptor } from './common.interceptor';
 import { HomeComponent } from './Component/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ForgotPasswordComponent } from './Component/forgot-password/forgot-password.component';
+import { DatePipe } from '@angular/common';
 
-
-// const routes: Routes = [ 
-//   { path: '', component: HomepageComponent },
-//   { path: 'login', component: LoginComponent },
-//   { path: 'registration', component: SignupComponent },
-// ];
 
 //function is use to get jwt token from local storage
 export function tokenGetter() {
@@ -33,7 +29,8 @@ export function tokenGetter() {
     HomepageComponent,
     LoginComponent,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
