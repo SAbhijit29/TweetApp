@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
   closeResult = '';
   username:any;
   ex: boolean=false;
-  myDate: Date = new Date();
   count: any;
 
   constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit(): void {
-  
+    //this.myDate = new DatePipe('en-Us');
     this.getAllUser();
     this.getAllTweets();
  
@@ -61,7 +60,13 @@ export class HomeComponent implements OnInit {
     
     this.userService.getAllUsers().subscribe({
       next:(res:any)=>{
+        if(res.result!=null)
+       {
         this.allUser = res.result;
+       } else{
+        this.allUser=[];
+       }
+
       },
       error:(err:any)=>console.error(err),
       complete() {
@@ -85,8 +90,12 @@ export class HomeComponent implements OnInit {
   getAllTweets(){
     this.tweetService.getAllTweets().subscribe({
       next:(res:any)=>{
+       if(res.result != null){
         this.allTweets = res.result;
         console.log(this.allTweets)
+       }else{
+        this.allTweets=[];
+       }
       },
       error:(err:any)=>console.error(err),
       complete() {

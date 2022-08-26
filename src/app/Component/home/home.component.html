@@ -34,8 +34,7 @@
                 <div class="d-flex justify-content-evenly">
                     <p>{{tweet.fullname}}</p>
                     <p>@{{tweet.username}}</p>
-                    <span>@{{tweet.tweetTime}}|date:'short':'IST'</span>
-                    <p>{{tweet.tweetTime | date: 'dd-MM-yyyy'}}</p>
+                    <span class="time">{{tweet.tweetTime|date:'medium':'IST'}}</span>
                 </div>
             </div>
             <div>
@@ -51,7 +50,7 @@
                     <ng-template #redIcon>
                         <img (click)="likeTweet(tweet.id)" class="img-tweet" src="../../../assets/icons8-heart-30.png">
                     </ng-template>
-                    <p>Like</p>
+                    <!-- <p>Like</p> -->
                     <p>{{tweet.likes}}</p>
                 </div>
             </div>
