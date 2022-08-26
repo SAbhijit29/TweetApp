@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
         this.getAllTweets();
       },error:(err:any)=>console.error(err.error.message),
       complete:()=> {
-          console.log("Post Tweeted success");
+          console.log("Post Tweet success");
       }
     })
   }
