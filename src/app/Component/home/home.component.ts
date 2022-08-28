@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Sanitizer } from '@angular/core';
 import { users } from 'src/app/Models/Users';
 import { TweetService } from 'src/app/service/tweet.service';
 import { UserRegistrationService } from 'src/app/service/user-registration.service';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { AuthGuard } from 'src/app/guards/auth-guard.service';
+import { DomSanitizer } from "@angular/platform-browser";
+
 
 @Component({
   selector: 'app-home',
@@ -24,6 +26,7 @@ export class HomeComponent implements OnInit {
   allTweets:tweets[] = [];
   today:Date = new Date();
   PostTweetForm:any;
+  imageUpload:any;
   flag:boolean = false;
   filteredUser: users[]=[];
   isLike = false;
@@ -33,27 +36,57 @@ export class HomeComponent implements OnInit {
   username:any;
   ex: boolean=false;
   count: any;
+  BmdFile_strbase64 : any;
+  dwnImg: any;
+  im: any;
 
   constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
     private modalService: NgbModal,private router:Router,private toastr: ToastrService,
-    private userService: UserRegistrationService,private tweetService:TweetService)
+    private userService: UserRegistrationService,private tweetService:TweetService,private sanitizer: DomSanitizer)
    { 
     
    }
 
   ngOnInit(): void {
-    //this.myDate = new DatePipe('en-Us');
     this.getAllUser();
     this.getAllTweets();
- 
+    
     this.PostTweetForm = this.formbulider.group({
       tweetText: [null, [Validators.required]],
       tags: [null]
     });
+
+    this.imageUpload = this.formbulider.group({
+      image: ['']
+    })
         this.username = this.auth.getUsername();
      this.auth.content.subscribe((res:any)=>
       console.log(res)
       )
+  }
+
+  uploadImage(image:any){
+    debugger
+    this.userService.uploadImage(image).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+      },
+      error:(err:any)=>{
+        console.log(err);
+      },
+      complete:()=>{
+        console.log("upload image");
+      }
+    })
+  }
+  downloadImage(image:any){
+    if(image!=null){
+    let objectURL = 'data:image/jpeg;base64,' + image;
+    let img = this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+   // console.table(img);
+    this.dwnImg = img;
+    return this.dwnImg;
+  }
   }
 
   getAllUser(){
@@ -63,6 +96,14 @@ export class HomeComponent implements OnInit {
         if(res.result!=null)
        {
         this.allUser = res.result;
+
+        this.allUser.forEach(element => {
+          var x =this.downloadImage(element.image);
+          element.image = x;
+          this.im = element.image;
+          element.image = null;
+        });
+
        } else{
         this.allUser=[];
        }
@@ -86,6 +127,7 @@ export class HomeComponent implements OnInit {
    
     return false;
   }
+  
 
   getAllTweets(){
     this.tweetService.getAllTweets().subscribe({

@@ -73,12 +73,18 @@
             </tbody>
         </table>
         <div class="d-flex mt-3" *ngFor="let user of allUser.slice(0,5)">
-            <img class="img-avatar" src="https://i.pravatar.cc/150?img=3">
+            <img class="img-avatar" [src]="im">
             <div class="user-box ml-2">
                 <p class="mb-1">{{user.fullname}}</p>
                 <p class="mt-1">@{{user.username}}</p>
+
             </div>
         </div>
+
+        <form [formGroup]="imageUpload">
+            <input type="file" formControlName="image" placeholder="image">
+            <a (click)="uploadImage(imageUpload.value)" type="submit" class="btn-post-tweet">submit</a>
+        </form>
     </div>
 </div>
 
