@@ -9,7 +9,7 @@
                 <h1>Register with us..</h1>
 
                 <input type="text" class="form-control" id="txtfirstName" formControlName="firstname" placeholder="firstname">
-                <div *ngIf="registrationForm.controls['firstname'].invalid && (registrationForm.controls['firstname'].dirty 
+                <div *ngIf="registrationForm.controls['firstname'].invalid && (registrationForm.controls['firstname'].dirty
                 || registrationForm.controls['firstname'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['firstname'].errors.required">
                         <span>*Please enter firstname</span>
@@ -17,7 +17,7 @@
                 </div>
 
                 <input type="text" class="form-control" id="txtlastName" formControlName="lastname" placeholder="lastname">
-                <div *ngIf="registrationForm.controls['lastname'].invalid && (registrationForm.controls['lastname'].dirty 
+                <div *ngIf="registrationForm.controls['lastname'].invalid && (registrationForm.controls['lastname'].dirty
                 || registrationForm.controls['lastname'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['lastname'].errors.required">
                         <span>*Please enter lastname</span>
@@ -25,7 +25,7 @@
                 </div>
 
                 <input type="text" class="form-control" id="txtuserName" formControlName="username" placeholder="username">
-                <div *ngIf="registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty 
+                <div *ngIf="registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty
                 || registrationForm.controls['username'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['username'].errors.required">
                         <span>*username consists _A-Za-z</span>
@@ -33,7 +33,7 @@
                 </div>
 
                 <input type="text" class="form-control" id="txtemail" formControlName="email" placeholder="email">
-                <div *ngIf="registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty 
+                <div *ngIf="registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty
                 || registrationForm.controls['email'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['email'].errors.required">
                         <span>*Please enter valid email</span>
@@ -42,7 +42,7 @@
 
 
                 <input [type]="show ? 'text' : 'password'" class="form-control" id="txtpassword" [(ngModel)]="password" formControlName="password" placeholder="password">
-                <div *ngIf="registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty 
+                <div *ngIf="registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty
                 || registrationForm.controls['password'].touched)" class="alert error-validation2">
                     <div *ngIf="registrationForm.controls['password'].errors.required">
                         <span>*password should be more than 8 chars</span>
@@ -57,7 +57,7 @@
 
 
                 <input type="password" class="form-control" id="txtconfirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
-                <div *ngIf="registrationForm.controls['confirmPassword'].invalid && (registrationForm.controls['confirmPassword'].dirty 
+                <div *ngIf="registrationForm.controls['confirmPassword'].invalid && (registrationForm.controls['confirmPassword'].dirty
                 || registrationForm.controls['confirmPassword'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['confirmPassword'].errors.required">
                         <span>*Please enter confirmPassword</span>
@@ -65,7 +65,7 @@
                 </div>
 
                 <input type="phone" class="form-control" id="txtphone" formControlName="phone" placeholder="phone">
-                <div *ngIf="registrationForm.controls['phone'].invalid && (registrationForm.controls['phone'].dirty 
+                <div *ngIf="registrationForm.controls['phone'].invalid && (registrationForm.controls['phone'].dirty
                 || registrationForm.controls['phone'].touched)" class="alert error-validation">
                     <div *ngIf="registrationForm.controls['phone'].errors.maxlength">
                         <span>*Please enter 10 digits no.</span>
@@ -97,7 +97,7 @@
     <footer>
         <p>
             Created <i class="fa fa-heart"></i> by
-            <a target="_blank" href="https://florin-pop.com">Abhijit Sinha</a> - Get the code @
+            <a target="_blank" href="https://www.linkedin.com/in/abhijitsinha2903/">Abhijit Sinha</a> - Get the code @
             <a target="_blank" href="https://github.com/SAbhijit29/TweetApp">here</a>.
         </p>
     </footer>
