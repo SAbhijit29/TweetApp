@@ -1,6 +1,8 @@
 {
     "apiServer": {
-        "url": "https://localhost:44370",
-        "version": "v1"
+        "url": "https://tweetapppapi.azurewebsites.net",
+        "version": "v1",
+        "urlLLocal": "https://localhost:44370"
     }
+
 }

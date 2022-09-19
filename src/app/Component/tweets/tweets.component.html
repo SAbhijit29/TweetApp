@@ -1,0 +1,55 @@
+<div class="d-flex">
+    <img class="img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{tweet.username}}+'.svg">
+    <div class="d-flex">
+        <div class="user-info d-flex">
+            <p class="tweet-name">{{tweet.fullname}}</p>
+            <p class="tweet-username" (click)="viewProfile(tweet.username)">@{{tweet.username}}</p>
+        </div>
+        <span class="time">{{tweet.tweetTime|date:'medium':'IST'}}</span>
+    </div>
+</div>
+<div class="tweet-msg">
+    <p class="tweet-text">{{tweet.tweetText}}</p>
+    <div class="d-flex">
+        <p class="tweet-tags" *ngFor="let tag of tweet.tags">{{tag}}</p>
+    </div>
+</div>
+<div class="d-flex">
+    <div [ngClass]="isProfile && checkTrue(tweet.username)?'col-4':'col-6'" class="d-flex" id="icons">
+        <img (click)="navigateToNewPage()" class="img-tweet" src="../../../assets/Twitter_Reply.png">
+        <p (click)="navigateToNewPage()">{{tweet.replyID.length}}</p>
+    </div>
+    <div [ngClass]="isProfile && checkTrue(tweet.username)?'col-4':'col-6'" class="d-flex" id="icons">
+        <img *ngIf="!checkLiked(tweet.likedBy); else redIcon" (click)="likeTweet(tweet.id)" class="img-tweet" src="../../../assets/filled-like.png">
+        <ng-template #redIcon>
+            <img (click)="likeTweet(tweet.id)" class="img-tweet" src="../../../assets/icons8-heart-30.png">
+        </ng-template>
+        <p>{{tweet.likes}}</p>
+    </div>
+    <div [ngClass]="isProfile && checkTrue(tweet.username)?'col-4':'col-6'" class="d-flex bin" id="icons">
+        <a><img *ngIf="isProfile && checkTrue(tweet.username)" (click)="open(del)" class="bin-icon" src="../../../assets/DeleteDustbin-512.webp">
+        </a>
+    </div>
+</div>
+
+<ng-template #del let-modal>
+
+    <div class="modal-header">
+
+        <button id="cursor" type="button" class="close x-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h4>Do you want to delete tweet?</h4><br>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="deleteTweet(tweet.id)" id="cursor" type="submit" class="btn btn-danger">Yes</button>
+        <button (click)="modal.dismiss('Cross click')" id="cursor" aria-label="Close" type="button" class="btn btn-light">No</button>
+    </div>
+</ng-template>

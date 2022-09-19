@@ -1,195 +1,104 @@
-<!-- <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Tweet App</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" routerLink="/">Home</a>
-            </li>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<div>
+    <h2>..</h2>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form class="form-signin" [formGroup]="registrationForm">
+                <h1>Register with us..</h1>
 
-            <li *ngIf="!isUserAuthenticated()" class="nav-item active">
-                <a class="nav-link" routerLink="/login">Login</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<form class="form-horizontal" [formGroup]="registrationForm">
-    <h1 style="text-align: center;">User Registration Page</h1>
-    <div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">First Name:</label>
-            <div class="col-sm-10">
                 <input type="text" class="form-control" id="txtfirstName" formControlName="firstname" placeholder="firstname">
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Last Name:</label>
-            <div class="col-sm-10">
+                <div *ngIf="registrationForm.controls['firstname'].invalid && (registrationForm.controls['firstname'].dirty 
+                || registrationForm.controls['firstname'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['firstname'].errors.required">
+                        <span>*Please enter firstname</span>
+                    </div>
+                </div>
+
                 <input type="text" class="form-control" id="txtlastName" formControlName="lastname" placeholder="lastname">
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">UserName:</label>
-            <div class="col-sm-10">
+                <div *ngIf="registrationForm.controls['lastname'].invalid && (registrationForm.controls['lastname'].dirty 
+                || registrationForm.controls['lastname'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['lastname'].errors.required">
+                        <span>*Please enter lastname</span>
+                    </div>
+                </div>
+
                 <input type="text" class="form-control" id="txtuserName" formControlName="username" placeholder="username">
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Password:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="txtpassword" formControlName="password" placeholder="password">
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Confirm Password:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="txtconfirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
-            </div>
-        </div>
-        <br />
+                <div *ngIf="registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty 
+                || registrationForm.controls['username'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['username'].errors.required">
+                        <span>*username consists _A-Za-z</span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Phone:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="txtphone" formControlName="phone" placeholder="phone">
-            </div>
-        </div>
-        <br />
-
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="pwd">Email:</label>
-            <div class="col-sm-10">
                 <input type="text" class="form-control" id="txtemail" formControlName="email" placeholder="email">
-            </div>
-        </div>
-        <br />
-
-
-        <div class="form-group">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
-                        <button type="submit" class="btn btn-primary" (click)="postUser(registrationForm.value)">Submit</button>
-                    </div>
-                    <div class="col-sm">
-                        <button type="submit" class="btn btn-primary" (click)="getallUser()">getallUser</button>
-                    </div>
-                    <div class="col-sm">
-                        <button type="submit" class="btn btn-primary" (click)="getalltweets()">getAlltweets</button>
-                    </div>
-                    <div class="col-sm">
-                        <button type="submit" class="btn btn-primary" (click)="Clear(registrationForm.value)">Clear</button>
+                <div *ngIf="registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty 
+                || registrationForm.controls['email'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['email'].errors.required">
+                        <span>*Please enter valid email</span>
                     </div>
                 </div>
-            </div>
-            <br />
-        </div>
 
-        <div *ngIf="showuser">
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
+                <input [type]="show ? 'text' : 'password'" class="form-control" id="txtpassword" [(ngModel)]="password" formControlName="password" placeholder="password">
+                <div *ngIf="registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty 
+                || registrationForm.controls['password'].touched)" class="alert error-validation2">
+                    <div *ngIf="registrationForm.controls['password'].errors.required">
+                        <span>*password should be more than 8 chars</span>
+                        <br>
+                        <span>*1 caps, 1small, 1 numeric & 1special char</span>
+                    </div>
+                </div>
+                <i *ngIf="password.length>0" [ngClass]="show?'far fa-eye':'fa fa-eye-slash'" (click)="showPass()" id="togglePassword" style="cursor: pointer;
+                    position: absolute;
+                    right: 60px;
+                    bottom: 244px;"></i>
 
-                        <th scope="col">Full Name</th>
-                        <th scope="col">UserName</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let prd of user">
-                        <td>{{prd.fullname}}</td>
-                        <td>{{prd.username}}</td>
-                        <td>{{prd.phone}}</td>
-                        <td>{{prd.email}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-</form>
-
-<form class="form-horizontal" [formGroup]="PostTweetForm">
-    <h1 style="text-align: center;">User Registration Page</h1>
-    <div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="tweetText">Tweet:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="txtTweetName" formControlName="tweetText" placeholder="Post your Tweet">
-            </div>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="txtTags" formControlName="tags" placeholder="Post your Tweet">
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <button type="submit" class="btn btn-primary" (click)="postTweet(PostTweetForm.value)">Submit</button>
+                <input type="password" class="form-control" id="txtconfirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
+                <div *ngIf="registrationForm.controls['confirmPassword'].invalid && (registrationForm.controls['confirmPassword'].dirty 
+                || registrationForm.controls['confirmPassword'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['confirmPassword'].errors.required">
+                        <span>*Please enter confirmPassword</span>
+                    </div>
                 </div>
 
-                <div class="col-sm">
-                    <button type="submit" class="btn btn-primary" (click)="ClearTweet(PostTweetForm.value)">Clear</button>
+                <input type="phone" class="form-control" id="txtphone" formControlName="phone" placeholder="phone">
+                <div *ngIf="registrationForm.controls['phone'].invalid && (registrationForm.controls['phone'].dirty 
+                || registrationForm.controls['phone'].touched)" class="alert error-validation">
+                    <div *ngIf="registrationForm.controls['phone'].errors.maxlength">
+                        <span>*Please enter 10 digits no.</span>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button id="cursor" (click)="postUser(registrationForm.value)" class="button-pd  btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+                    <button id="cursor" type="submit" class="btn btn-lg btn-block btn-primary  " (click)="Clear(registrationForm.value)">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button id="cursor" class="ghost" id="signUp">Sign Up</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Already have an account with us? Click here..</p>
+                    <button id="cursor" routerLink="/login" class="ghost" id="signIn">Login</button>
                 </div>
             </div>
         </div>
-        <br />
     </div>
-</form> -->
+    <h2>..</h2>
 
-
-<h2>..</h2>
-<div class="container" id="container">
-    <div class="form-container sign-in-container">
-        <form class="form-signin" [formGroup]="registrationForm">
-            <h1>Register with us..</h1>
-
-            <input type="text" class="form-control" id="txtfirstName" formControlName="firstname" placeholder="firstname">
-            <input type="text" class="form-control" id="txtlastName" formControlName="lastname" placeholder="lastname">
-            <input type="text" class="form-control" id="txtuserName" formControlName="username" placeholder="username">
-            <input type="text" class="form-control" id="txtemail" formControlName="email" placeholder="email">
-            <input type="text" class="form-control" id="txtpassword" formControlName="password" placeholder="password">
-            <input type="text" class="form-control" id="txtconfirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
-            <input type="text" class="form-control" id="txtphone" formControlName="phone" placeholder="phone">
-
-            <div class="d-flex">
-                <button (click)="postUser(registrationForm.value)" class="button-pd  btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-                <button type="submit" class="btn btn-lg btn-block btn-primary  " (click)="Clear(registrationForm.value)">Clear</button>
-            </div>
-        </form>
-    </div>
-    <div class="overlay-container">
-        <div class="overlay">
-            <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button class="ghost" id="signUp">Sign Up</button>
-            </div>
-            <div class="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
-                <p>Already have an account with us? Click here..</p>
-                <button routerLink="/login" class="ghost" id="signIn">Login</button>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <p>
+            Created <i class="fa fa-heart"></i> by
+            <a target="_blank" href="https://florin-pop.com">Abhijit Sinha</a> - Get the code @
+            <a target="_blank" href="https://github.com/SAbhijit29/TweetApp">here</a>.
+        </p>
+    </footer>
 </div>
-<h2>..</h2>
-
-<footer>
-    <p>
-        Created with <i class="fa fa-heart"></i> by
-        <a target="_blank" href="https://florin-pop.com">Florin Pop</a> - Read how I created this and how you can join the challenge
-        <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-    </p>
-</footer>

@@ -1,0 +1,291 @@
+.box1 {
+    margin-top: 10px;
+    width: 20%;
+    position: fixed;
+    left: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.123);
+}
+
+.main-logo {
+    height: 60px;
+    width: 60px;
+    margin-bottom: 70px;
+    margin-left: 25px;
+}
+
+.nav-values {
+    width: 60%;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 30px auto 350px auto;
+}
+
+.nav-icon {
+    height: 25px;
+    width: 25px;
+    margin-right: 3px;
+}
+
+.nav-icon1 {
+    margin-top: 5px;
+    height: 20px;
+    width: 20px;
+    margin-right: 6px;
+}
+
+.box2 {
+    width: 55%;
+    position: relative;
+    left: 20%;
+}
+
+.img-avatar {
+    border-radius: 100%;
+    ;
+    width: 50px;
+    height: 50px;
+}
+
+.my-img-avatar {
+    border-radius: 100%;
+    ;
+    width: 80px;
+    height: 80px;
+    margin: 0 20px;
+}
+
+.user-box {
+    margin-left: 10px;
+}
+
+.btn-tweet {
+    background-color: rgb(29, 155, 240);
+    color: white;
+    padding: 10px 50px;
+    border-radius: 25px;
+    text-decoration: none;
+}
+
+.profile-nav {
+    margin-bottom: 40px;
+}
+
+.btn-logout {
+    background-color: black;
+    color: white;
+    padding: 10px 70px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 0 35px;
+}
+
+.post-tweet {
+    height: 250px;
+    width: 650px !important;
+    margin-bottom: 50px;
+}
+
+.img-tweet {
+    height: 25px;
+    width: 25px;
+    margin-right: 20px;
+}
+
+.x-close {
+    border: none;
+    background: white;
+    font-size: 28px;
+    margin-top: -15px;
+    margin-bottom: -15px
+}
+
+.tweet-body {
+    width: 90%;
+    margin: 0 auto;
+    padding: 25px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.123);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.123);
+}
+
+.post-tweet-box {
+    padding: 25px;
+}
+
+.post-tweet {
+    width: 80%;
+    height: 64px;
+    border: none;
+    font-size: 26px;
+}
+
+.ml-160 {
+    margin-left: 160px !important;
+}
+
+.modal-post-tweet {
+    width: 21vw !important;
+    margin-bottom: 0;
+}
+
+.btn-post-tweet {
+    background-color: rgb(29, 155, 240);
+    color: white;
+    padding: 10px 50px;
+    border-radius: 25px;
+    text-decoration: none;
+    margin-left: 510px;
+}
+
+.box3 {
+    background-color: #eeeff0c7;
+    width: 25%;
+    position: fixed;
+    right: 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.123);
+    /* margin-top: 10px; */
+    height: 100%;
+    padding-left: 25px;
+}
+
+.time {
+    padding: 0 0 0 80px;
+}
+
+.user-details {
+    /* background-color: rgba(0, 131, 253, 0.123); */
+    background-color: #dfe1de5e;
+    border-radius: 60px;
+    padding: 20px;
+    width: 24%;
+    position: fixed;
+    margin-top: 11px;
+    overflow-y: scroll;
+    height: 63%;
+}
+
+.search-user {
+    width: 85%;
+    height: 40px;
+    font-size: 20px;
+    margin: 40px 0 40px 5px;
+}
+
+.row-val {
+    padding-left: 30px;
+    border-bottom: 1px solid black;
+    font-size: 24px;
+}
+
+.search-container {
+    background: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.8s;
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3), -4px -4px 6px 0 rgba(116, 125, 136, .2), inset -4px -4px 6px 0 rgba(255, 255, 255, .2), inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+}
+
+.search-container:hover>.search-input {
+    width: 400px;
+}
+
+.search-container .search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.8s;
+}
+
+.search-container .search-btn .fas {
+    color: #0088ff;
+}
+
+@keyframes hoverShake {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    25% {
+        transform: skew(5deg, 5deg);
+    }
+    75% {
+        transform: skew(-5deg, -5deg);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+.search-container:hover {
+    animation: hoverShake 0.15s linear 3;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+}
+
+ul.suggestions {
+    border: 1px outset #ccc;
+    height: 55px;
+    margin: 4px;
+    border-radius: 20%;
+    border-left-color: currentcolor;
+    position: unset;
+    background-color: #f5f5dc24;
+}
+
+.usr-name {
+    padding-top: 7px !important;
+}
+
+
+/* if you want style so that's why i use "li a" also */
+
+ul.suggestions li,
+ul.suggestions li a {
+    /* background-color: #fff; */
+    color: #000;
+    font-size: 16px;
+    font-family: monospace;
+    font-weight: normal;
+    padding: 0 10px;
+    margin: 3px;
+    height: 28px;
+    line-height: 30px;
+    display: flex;
+    cursor: pointer;
+}
+
+ul.suggestions li:hover,
+ul.suggestions li a:hover {
+    /* background-color: #ccc; */
+    color: #0088ff;
+    text-decoration: normal;
+}
+
+ul.suggestions li:hover .suggested_input {
+    background-color: #FAFFBD;
+    border: 1px solid #3C8DBC;
+}
+
+.suggested_input:hover ul.suggestions {
+    display: block;
+}
+
+.no-user {
+    font-family: cursive;
+}
+
+.mt-3:hover {
+    background-color: rgb(138 139 205);
+    border-radius: 50px;
+    padding: 8px 0px 0px 10px;
+}

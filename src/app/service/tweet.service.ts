@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import configurl from '../../assets/config/config.json';
 import { AuthGuard } from '../guards/auth-guard.service';
 import { tweets } from '../Models/tweets';
-import { BehaviorSubject } from 'rxjs'; 
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,33 @@ export class TweetService implements OnInit {
         {'Content-Type': 'application/json'}
         ) };
         return this.http.get(this.url+"GetReplyById/"+tweetId,httpHeaders);
+    }
+
+    postReply(tweet:tweets,tweetId:string):Observable<any>{
+      const httpHeaders = { headers:new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        ) };
+        return this.http.post(this.url+this.usr+'/replyToPost/'+tweetId,tweet,httpHeaders);
+    }
+
+    getTweetByName(username:string):Observable<any>{
+      const httpHeaders = { headers:new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        ) };
+        return this.http.get( configurl.apiServer.url+'/api/v/1.0/tweets/user/search/'+username,httpHeaders);
+    }
+
+    deleteTweet(tweetId:string):Observable<any>{
+      const httpHeaders = { headers:new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        ) };
+        return this.http.delete(this.url+this.usr+'/delete/'+tweetId,httpHeaders);
+    }
+
+    updateTweet(tweetId:string, tweetText:tweets):Observable<any>{
+      const httpHeaders = { headers:new HttpHeaders(
+        {'Content-Type': 'application/json'}
+        ) };
+        return this.http.put(this.url+this.usr+'/update/'+tweetId,tweetText,httpHeaders);
     }
 }

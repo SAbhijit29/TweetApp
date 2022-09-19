@@ -1,0 +1,67 @@
+<div class="box1">
+    <div class="nav-values">
+        <div><img class="main-logo" src="../../../assets/4737439e6f0d4987ae45a6d0b35f6b20 (3).png" routerLink="/" id="cursor"></div>
+        <div class="menu">
+            <div routerLink="/" id="cursor" class="d-flex pl-4">
+                <img class="nav-icon1" src="../../../assets/home.png">
+                <p>Home</p>
+            </div>
+            <div id="cursor" class="d-flex ml-4 " (click)="viewProfile()">
+                <img class="nav-icon" src="../../../assets/person-male--v3.png">
+                <p>Profile</p>
+            </div>
+        </div>
+        <div class="lft-twt">
+            <a id="cursor" class="btn-tweet" (click)="open(content)">Tweet</a>
+        </div>
+    </div>
+    <br>
+    <div class="btn-logout"><a id="cursor" type="submit" (click)="open(logout)">Logout</a></div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+
+        <button id="cursor" type="button" class="close x-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="post-tweet-box d-flex">
+            <img class="my-img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{username}}+'.svg">
+            <form [formGroup]="PostTweetForm">
+                <textarea required maxlength="144" placeholder="What's Going On" formControlName="tweetText" class="post-tweet modal-post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a (click)="postTweet(PostTweetForm.value)" id="cursor" type="submit" class="btn-post-tweet ml-160">Tweet</a>
+    </div>
+</ng-template>
+
+
+
+<ng-template #logout let-modal>
+
+    <div class="modal-header">
+
+        <button id="cursor" type="button" class="close x-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <h4>Are You Sure want to Logout?</h4><br>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="logOut()" id="cursor" type="submit" class="btn btn-danger btn-y">Yes</button>
+        <button (click)="modal.dismiss('Cross click')" id="cursor" aria-label="Close" type="button" class="btn btn-light btn-y">No</button>
+    </div>
+</ng-template>

@@ -1,25 +1,22 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit,Output } from '@angular/core';
 import { users } from 'src/app/Models/Users';
 import { TweetService } from 'src/app/service/tweet.service';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { AuthGuard } from 'src/app/guards/auth-guard.service';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuard } from 'src/app/guards/auth-guard.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-left-sidebar',
+  templateUrl: './left-sidebar.component.html',
+  styleUrls: ['./left-sidebar.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class LeftSidebarComponent implements OnInit {
 
-  o:any[]=[];
-  msg='';
+  @Output() tweetEmitter = new EventEmitter();
+  title = 'TweetApp';
   reply:string[]=[];
   listReply:any[]=[];
   allUser:users[]=[];
@@ -33,59 +30,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchTerm = '';
   closeResult = '';
   username:any;
-
-  myValueSub: Subscription = new Subscription();
-
+  ex: boolean=false;
+  count: any;
+  o:any[]=[];
 
   constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
-    private modalService: NgbModal,private toastr: ToastrService,
-    private tweetService:TweetService, private guard:AuthGuard,private router:Router)
+    private modalService: NgbModal,private router:Router,private toastr: ToastrService,
+    private tweetService:TweetService)
    {
 
    }
 
-  ngOnDestroy() {
-      if (this.myValueSub) {
-          this.myValueSub.unsubscribe();
-    }
-  }
-
   ngOnInit(): void {
-  this.getAllTweets();
     this.PostTweetForm = this.formbulider.group({
       tweetText: [null, [Validators.required]],
       tags: [null]
     });
         this.username = this.auth.getUsername();
-     this.auth.content.subscribe((res:any)=>
-      res
-      )
-
-  }
-
-
-  getAllTweets(){
-    this.myValueSub = this.tweetService.getAllTweets().subscribe({
-      next:(res:any)=>{
-
-       if(res.result != null && res.result.length>0){
-        this.allTweets = res.result;
-        this.allTweets.sort();
-       }else{
-        this.msg = "No tweets found.."
-        this.allTweets=[];
-       }
-      },
-      error:(err:any)=>console.error(err),
-      complete() {
-        console.log("get all tweets completed")
-      },
-    })
-  }
-
-
-  reloadTweets(event:any){
-    this.getAllTweets();
   }
 
   autoGrowTextZone(e:any) {
@@ -99,12 +60,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.toastr.warning("Enter some text to post",'',{timeOut: 1000})
       return
     }
-
     this.o =[];
     var twt = Tweet.tweetText.match(/#[a-z0-9_]+/gi);
     var t = Tweet.tweetText.split(/#[a-z0-9_]+/gi);
     t.forEach(element => {
-      if(element == "" || element.length ==0|| element==null){
+      if(element == "" || element==null || element.length ==0){
        return
       }
       this.o.push(element.trim());
@@ -116,10 +76,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tweetService.postTweet(x).subscribe({
       next:(res:any)=>{
         this.toastr.success(res.message,'',{timeOut: 1000});
-        this.getAllTweets();
-        this.reload();
+        this.tweetEmitter.emit('');
         this.ClearTweet();
         this.modalService.dismissAll();
+        window.location.reload();
       },
       error:(err:any)=>{
         this.toastr.warning(err.error.message,'',{timeOut: 1000});
@@ -133,12 +93,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   ClearTweet(){
     this.PostTweetForm.reset();
   }
-  reload(){
-    let currentUrl = this.router.url;
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate([currentUrl]);
+
+  logOut() {
+    this.modalService.dismissAll();
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("username");
+    localStorage.clear();
+    this.router.navigate(['/login']).then(()=>{
+      window.location.reload();
+    });
   }
 
+
+  open(content:any) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result)  => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult =
+         `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  viewProfile(){
+    this.router.navigate([`/${this.username}`]).then(() => {
+      window.location.reload();
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
 }

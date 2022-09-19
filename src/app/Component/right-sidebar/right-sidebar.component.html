@@ -1,0 +1,42 @@
+<head>
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+</head>
+<!--
+<body> -->
+<div class="box3">
+    <div class="search-container" style="margin-top: 10px;">
+        <input type="text" name="search" placeholder="Search users..." class="search-input" [(ngModel)]="searchTerm" (input)="search(searchTerm)">
+        <a href="#" class="search-btn">
+            <i class="fas fa-search"></i>
+        </a>
+
+    </div>
+    <div>
+        <div *ngFor="let country of filteredUser.slice(0,3); index as i">
+            <ul class="suggestions list-user" (click)="viewProfile(country.username)">
+                <div class="d-flex">
+                    <li> <img class="img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{country.username}}+'.svg"></li>
+                    <li class="usr-name"> @{{ country.username }}</li>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <ul class="no-user" *ngIf="msg.length>0">{{msg}}</ul>
+    </div>
+
+    <div class="user-details">
+        <div class="d-flex mt-3" *ngFor="let user of allUser.slice(0,5)" id="cursor">
+            <img class="img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{user.username}}+'.svg">
+            <div class="user-box ml-2">
+                <p class="mb-1 fw-bold">{{user.fullname}}</p>
+                <p class="mt-1" id="cursor" (click)="viewProfile(user.username)">@{{user.username}}</p>
+            </div>
+        </div>
+        <div>
+            <ul class="no-user" *ngIf="Nomsg.length>0">{{Nomsg}}</ul>
+        </div>
+    </div>
+</div>
+<!-- </body> -->

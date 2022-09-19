@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { userRegistration } from 'src/app/Models/UserRegistration';
 import configurl from '../../../assets/config/config.json';
 import { BehaviorSubject } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -21,14 +22,21 @@ export class LoginComponent implements OnInit {
 
   url = configurl.apiServer.url + '/api/v1.0/';
   username: any;
-
-  constructor(private formbulider: UntypedFormBuilder,private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
+  show: boolean=false;
+  password:string=''
+  constructor(private router: Router, private http: HttpClient,private jwtHelper : JwtHelperService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
   }
 
+  showPass()
+  {
+          this.show = !this.show;
+  }
+
   public login = (form: NgForm) => {
+
     const credentials = JSON.stringify(form.value);
     this.http.post(this.url +"login", credentials, {
       headers: new HttpHeaders({
@@ -42,12 +50,13 @@ export class LoginComponent implements OnInit {
         this.username = username;
         localStorage.setItem("username", username);
         this.invalidLogin = false;
-        this.toastr.success("Logged In successfully");
+        var str = "Welcome, "+username;
+        this.toastr.success(str,'',{timeOut: 1000});
         this.router.navigate([""]);
       },
       error:(err:any)=>{
         this.invalidLogin = true;
-        this.toastr.error(err.error);
+        this.toastr.error(err.error,'',{timeOut: 1000});
       },
       complete:()=>{
         const username = this.username;
@@ -55,8 +64,8 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-  
-  
+
+
 
   isUserAuthenticated() {
     const token = localStorage.getItem("jwt");

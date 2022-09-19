@@ -3,6 +3,10 @@
     box-sizing: border-box;
 }
 
+.main-signup {
+    margin: 0 auto;
+}
+
 body {
     background: #f6f5f7;
     display: flex;
@@ -249,4 +253,28 @@ footer i {
 footer a {
     color: #3c97bf;
     text-decoration: none;
+}
+
+.error-validation {
+    margin: 0;
+    padding: 0;
+    height: 5px;
+    position: relative;
+    left: 100px;
+    opacity: 1;
+    bottom: 30px;
+    top: auto;
+    color: red;
+}
+
+.error-validation2 {
+    margin: 0;
+    padding: 0;
+    height: 8px;
+    position: relative;
+    left: 78px;
+    /* opacity: 1; */
+    bottom: 30px;
+    top: auto;
+    color: red;
 }

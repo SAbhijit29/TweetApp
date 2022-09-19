@@ -16,7 +16,18 @@ import { HomeComponent } from './Component/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ForgotPasswordComponent } from './Component/forgot-password/forgot-password.component';
 import { DatePipe } from '@angular/common';
+import { TweetsComponent } from './Component/tweets/tweets.component';
+import { LeftSidebarComponent } from './Component/left-sidebar/left-sidebar.component';
+import { RightSidebarComponent } from './Component/right-sidebar/right-sidebar.component';
+import { ReplyComponent } from './Component/reply/reply.component';
+import { ProfileComponent } from './Component/profile/profile.component';
 
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 //function is use to get jwt token from local storage
 export function tokenGetter() {
@@ -30,29 +41,33 @@ export function tokenGetter() {
     LoginComponent,
     SignupComponent,
     HomeComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    TweetsComponent,
+    LeftSidebarComponent,
+    RightSidebarComponent,
+    ReplyComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,MenuModule,ButtonModule,RippleModule,
     ToastNoAnimationModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:7299"],
+        allowedDomains: ["localhost:7299","https://tweetapppapi.azurewebsites.net"],
         disallowedRoutes: []
       }
   }),
   ToastrModule.forRoot(),
     FormsModule,
-    // MatButtonModule, 
-    // MatCheckboxModule,
-    // MatInputModule,
-    // MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    InfiniteScrollModule,
   ],
   providers: [AuthGuard,
     {

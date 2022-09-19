@@ -1,0 +1,47 @@
+<div class="d-flex">
+    <app-left-sidebar></app-left-sidebar>
+    <div class="box2">
+        <div>
+            <div class="d-flex">
+                <img class="img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{tweet.username}}+'.svg">
+                <div class="tweet-head d-flex justify-content-evenly">
+                    <div>
+                        <p class="tweet-fullname fw-bold">{{tweet.fullname}}</p>
+                        <p class="tweet-userName">@{{tweet.username}}</p>
+                    </div>
+                    <span class="time">{{tweet.tweetTime|date:'medium':'IST'}}</span>
+                </div>
+            </div>
+            <div class="tweet-msg">
+                <p class="tweet-text">{{tweet.tweetText}}</p>
+                <div class="d-flex">
+                    <p class="tweet-tags" *ngFor="let tag of tweet.tags">{{tag}}</p>
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex col-6" id="icons">
+                    <img class="img-tweet" src="../../../assets/Twitter_Reply.png">
+                    <p>{{tweet.replyID.length}}</p>
+                </div>
+                <div class="d-flex col-6" id="icons">
+                    <img class="img-tweet" src="../../../assets/filled-like.png">
+                    <p>{{tweet.likedBy.length}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="post-tweet-box d-flex">
+            <img class="my-img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{username}}+'.svg">
+            <form [formGroup]="PostTweetForm">
+                <textarea required maxlength="144" placeholder="Reply Here..." formControlName="tweetText" class="post-tweet2 post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
+                <hr class="line">
+                <a id="cursor" type="submit" (click)="postReply(PostTweetForm.value,tweet.id)" class="btn-post-tweet">Reply</a>
+            </form>
+        </div>
+        <div *ngFor="let tweet of listReply">
+            <app-tweets (tweetEmitter)="reloadReplys($event)" [tweet]="tweet">
+            </app-tweets>
+            <hr>
+        </div>
+    </div>
+    <app-right-sidebar></app-right-sidebar>
+</div>

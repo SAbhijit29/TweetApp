@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 
 export class tweets{
     id:string="";
@@ -6,7 +5,8 @@ export class tweets{
     tweetTime:Date=new Date();
     username:string="";
     likes:Number=0;
-    Tags:string="";
+    Tags:any;
     fullname:string="";
     likedBy:string[]=[];
+    replyID:string[]=[];
 }
