@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,6 @@ import { UserRegistrationService } from 'src/app/service/user-registration.servi
 import configurl from '../../../assets/config/config.json';
 
 import{users} from 'src/app/Models/Users'
-import { Observable } from 'rxjs';
 import { TweetService } from 'src/app/service/tweet.service';
 import { tweets } from 'src/app/Models/tweets';
 
@@ -33,8 +32,9 @@ export class SignupComponent implements OnInit {
   token: string | null="";
   username:string | null="";
 
-  constructor(private formbulider: FormBuilder, private jwtHelper : JwtHelperService,private tweetService:TweetService
-    ,private toastr: ToastrService,private router: Router,private http: HttpClient ,private userservice:UserRegistrationService   ) { }
+  show: boolean=false;
+  password:string=''
+  constructor(private formbulider: UntypedFormBuilder, private toastr: ToastrService,private router: Router,private http: HttpClient ,private userservice:UserRegistrationService   ) { }
 
   ngOnInit(): void {
 
@@ -46,41 +46,23 @@ export class SignupComponent implements OnInit {
       confirmPassword: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phone: ['', [Validators.maxLength(10)]],
+      
     });
 
-
-    this.PostTweetForm = this.formbulider.group({
-      tweetText: ['', [Validators.required]],
-      tags: [null]
-    });
-
-    
-    this.isUserAuthenticated();
-    this.token = localStorage.getItem("jwt");
-    this.username = localStorage.getItem("username");
   }
 
   
-  postTweet(Tweet:tweets){
-    this.tweetService.postTweet(Tweet).subscribe({
-      next:(res:any)=>{
-        console.log(res);
-        this.toastr.success(res.message);
-      },
-      error:(err:any)=>console.error(err),
-      complete() {
-          console.log("Post Tweeted success");
-      }
-    })
+  showPass()
+  {
+          this.show = !this.show;
   }
-
-  ClearTweet(user: userRegistration){
-    this.PostTweetForm.reset();
-  }
-
   
   postUser(user: userRegistration) {
-      //const user_Master = this.registrationForm.value;
+          if (this.registrationForm.invalid) {
+            this.toastr.error("Invalid Form",'',{timeOut: 1000})
+            return;
+        }
+
     const user_Master = JSON.stringify(user);
     this.http.post(this.url +"users/register", user,{
         headers: new HttpHeaders({
@@ -88,12 +70,31 @@ export class SignupComponent implements OnInit {
         })
     }).subscribe({
         next:(res:any)=>{
-          console.log(res)
-          this.toastr.success(res.message);
+          if(res.statusCode==200){
+            this.toastr.success(res.message,'',{timeOut: 1000});
+            this.router.navigate(['/login']);
+          }
+          else{
+            this.toastr.error(res.message,'',{timeOut: 1000});
+          }
+          
         },
         error:(err)=>{
           console.log(err)
-          this.toastr.error(err.error.title)
+          if(err.error.errors.Username!= null){
+            this.toastr.error(err.error.errors.Username,'',{timeOut: 1000});
+          }
+          else if(err.error.errors.Password!= null){
+            this.toastr.error(err.error.errors.Password,'',{timeOut: 1000});
+          }
+          else if(err.error.errors.Email!= null){
+            this.toastr.error(err.error.errors.Email,'',{timeOut: 1000});
+          }
+          else if(err.error.errors.ConfirmPassword!= null){
+            this.toastr.error(err.error.errors.ConfirmPassword,'',{timeOut: 1000});
+          }
+          else
+          this.toastr.error(...err.error.title,'',{timeOut: 1000})
         },
         complete() {
             console.log("complete")
@@ -118,30 +119,6 @@ export class SignupComponent implements OnInit {
         console.log("get all user completed")
       },
     })
-  }
-
-  getalltweets(){
-    this.tweetService.getAllTweets().subscribe({
-      next:(res:any)=> {
-          this.allTweets = res.result;
-          this.showAllTweets = true;
-      },
-      error:(err:any)=>console.error(err),
-      complete() {
-          console.log("all tweets received");
-      },
-    })
-  }
-
-
-  isUserAuthenticated() {
-    const token = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
-      return true;
-    }
-    else {
-      return false;
-    }
   }
 
 }

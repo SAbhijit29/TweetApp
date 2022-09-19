@@ -1,0 +1,58 @@
+<div class="d-flex">
+    <app-left-sidebar></app-left-sidebar>
+    <div class="box2">
+        <div class="user-profile">
+            <!-- <img class="img-cover-photo" src="https://source.unsplash.com/random/1620x1080?sig='+{{user.username}}'"> -->
+            <img class="img-cover-photo" src="../../../assets/weed.jpg" alt="bg-cover">
+
+            <img class="dp" src="https://avatars.dicebear.com/api/adventurer/'+{{user.username}}+'.svg">
+            <div class="d-flex justify-content-between user-details">
+                <div>
+                    <div> <span class="profile-fullname">{{user.fullname}}</span></div>
+                    <br>
+                    <div><span class="profile-username">@{{user.username}}</span></div>
+                </div>
+                <div class="icons-phn-call">
+                    <div class="pb-6"><img class="phone-icon" src="../../../assets/phone.png">
+                        <span class="profile-phone">{{user.phone}}</span></div>
+                    <br>
+                    <div> <img class="cal-icon" src="../../../assets/calendar">
+                        <span class="profile-text">{{user.joinedDate | date:'mediumDate':'IST'}}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex tweet-body" *ngFor="let tweet of tweets ">
+            <app-tweets class="tweet-box" [isProfile]="true" [tweet]="tweet" (tweetEmitter)="reloadTweets($event)"></app-tweets>
+            <div *ngIf="showBtn">
+                <img class="edit-icon" src="../../../assets/gui_edit_icon_157165.png" (click)="open(content,tweet)">
+            </div>
+        </div>
+        <div class="no-user">
+            {{msg}}
+        </div>
+    </div>
+    <app-right-sidebar></app-right-sidebar>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header cross-profile-pop">
+
+        <button id="cursor" type="button" class="close x-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="post-tweet-box d-flex">
+            <img class="my-img-avatar" src="https://i.pravatar.cc/150?img=3">
+            <form [formGroup]="PostTweetForm">
+                <textarea maxlength="144" formControlName="tweetText" class="post-tweet modal-post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a (click)="updateTweet(PostTweetForm.value)" id="cursor" type="submit" class="btn-post-tweet ml-160">Update</a>
+    </div>
+</ng-template>

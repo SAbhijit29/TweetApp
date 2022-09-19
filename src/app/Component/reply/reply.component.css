@@ -1,0 +1,64 @@
+.line {
+    width: 660px;
+    margin-top: -30px;
+}
+
+.box2 {
+    padding: 35px;
+}
+
+.img-avatar {
+    height: 100px;
+    width: 100px;
+}
+
+.tweet-fullname {
+    font-size: 36px;
+    margin-top: -5px;
+    text-decoration: underline dotted rgba(113, 111, 111, 0.751);
+}
+
+.tweet-userName {
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: -15px;
+    font-style: italic;
+}
+
+.tweet-head {
+    margin-left: 30px;
+}
+
+#icons {
+    padding-left: 21px;
+}
+
+.time {
+    font-size: 20px;
+    margin-top: 7px;
+    right: 60px !important;
+}
+
+.tweet-msg {
+    padding: 10px 25px;
+}
+
+.tweet-text {
+    font-size: 30px;
+}
+
+.tweet-tags {
+    color: rgb(0, 4, 253);
+    font-size: 24px;
+    margin-right: 5px;
+    margin-top: -15px;
+}
+
+::ng-deep .post-tweet {
+    height: 50px;
+}
+
+.post-tweet2 {
+    width: 650px !important;
+    margin-bottom: 50px;
+}

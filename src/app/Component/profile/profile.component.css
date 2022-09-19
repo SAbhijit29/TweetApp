@@ -1,0 +1,95 @@
+.img-cover-photo {
+    height: 330px;
+    width: 100%;
+    object-fit: cover;
+    z-index: 9;
+}
+
+.dp {
+    height: 200px;
+    border-radius: 100%;
+    margin-top: -100px;
+    margin-left: 300px;
+}
+
+.user-details {
+    margin-top: -80px;
+    padding: 20px;
+}
+
+.user-profile {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.253);
+    padding-bottom: 20px;
+    background-color: #eeeff0c7;
+}
+
+.bin-icon {
+    height: 30px;
+}
+
+.edit-icon {
+    height: 30px;
+    margin-left: -30px;
+}
+
+.tweet-box {
+    width: 850px;
+}
+
+.profile-fullname {
+    font-size: 36px;
+    font-family: cursive;
+}
+
+.profile-username {
+    font-size: 24px;
+    font-style: italic;
+    font-family: none;
+}
+
+.phone-icon {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.cal-icon {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.profile-phone {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-text {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.icons-phn-call {
+    padding-top: 13px;
+    padding-bottom: 9px;
+    padding-right: 20px;
+}
+
+.pb-6 {
+    padding-bottom: 6px;
+}
+
+::ng-deep .time {
+    right: 150px !important;
+}
+
+::ng-deep .modal-header {
+    justify-content: end !important;
+    /* border: none !important; */
+    background-color: white;
+}
+
+.no-user {
+    font-family: cursive;
+    font-size: xx-large;
+    text-align: -webkit-center;
+    border-top: 1px solid;
+}

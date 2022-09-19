@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { users } from 'src/app/Models/Users';
 import { TweetService } from 'src/app/service/tweet.service';
-import { UserRegistrationService } from 'src/app/service/user-registration.service';
-import { FormControl } from '@angular/forms';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { tweets } from 'src/app/Models/tweets';
 import { ToastrService } from 'ngx-toastr';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuard } from 'src/app/guards/auth-guard.service';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -14,59 +16,65 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  allUser:users[] = [];
-  allTweets:any = [];
+  o:any[]=[];
+  msg='';
+  reply:string[]=[];
+  listReply:any[]=[];
+  allUser:users[]=[];
+  allTweets:tweets[] = [];
   today:Date = new Date();
   PostTweetForm:any;
   flag:boolean = false;
-  searchTerm = '';
   filteredUser: users[]=[];
   isLike = false;
   colorChange: boolean=false;
+  searchTerm = '';
+  closeResult = '';
+  username:any;
 
-  constructor(private formbulider: FormBuilder,private toastr: ToastrService,private router:Router,
-    private userService: UserRegistrationService,private tweetService:TweetService) { }
+  myValueSub: Subscription = new Subscription();
+
+
+  constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
+    private modalService: NgbModal,private toastr: ToastrService,
+    private tweetService:TweetService, private guard:AuthGuard,private router:Router)
+   {
+
+   }
+
+  ngOnDestroy() {
+      if (this.myValueSub) {
+          this.myValueSub.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
-    this.getAllUser();
-    this.getAllTweets();
- 
+  this.getAllTweets();
     this.PostTweetForm = this.formbulider.group({
-      tweetText: ['', [Validators.required]],
+      tweetText: [null, [Validators.required]],
       tags: [null]
     });
+        this.username = this.auth.getUsername();
+     this.auth.content.subscribe((res:any)=>
+      res
+      )
+
   }
 
-
-  getAllUser(){
-    this.userService.getAllUsers().subscribe({
-      next:(res:any)=>{
-        this.allUser = res.result;
-      },
-      error:(err:any)=>console.error(err),
-      complete() {
-        console.log("get all user completed")
-      },
-    })
-  }
-  //filtered.username.includes(target)
-
-  search(value: string) {
-    if(value && value.length>0){
-      const filteredProducts = this.allUser.filter(filtered=>filtered.username.toLowerCase().includes(value))
-      this.filteredUser = filteredProducts;
-    }
-    else
-    this.filteredUser=[];
-  }
 
   getAllTweets(){
-    this.tweetService.getAllTweets().subscribe({
+    this.myValueSub = this.tweetService.getAllTweets().subscribe({
       next:(res:any)=>{
+
+       if(res.result != null && res.result.length>0){
         this.allTweets = res.result;
-        console.log(this.allTweets)
+        this.allTweets.sort();
+       }else{
+        this.msg = "No tweets found.."
+        this.allTweets=[];
+       }
       },
       error:(err:any)=>console.error(err),
       complete() {
@@ -74,36 +82,50 @@ export class HomeComponent implements OnInit {
       },
     })
   }
+
+
+  reloadTweets(event:any){
+    this.getAllTweets();
+  }
+
   autoGrowTextZone(e:any) {
     e.target.style.height = "0px";
     e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
   postTweet(Tweet:tweets){
-    this.tweetService.postTweet(Tweet).subscribe({
-      next:(res:any)=>{
-        console.log(res);
-        this.toastr.success(res.message);
-        this.getAllTweets();
-        this.ClearTweet();
-      },
-      error:(err:any)=>console.error(err),
-      complete() {
-          console.log("Post Tweeted success");
-      }
-    })
-  }
 
-  likeTweet(tweetId:string){
-    debugger
-    this.isLike = !this.isLike;
-    this.tweetService.liketweet(tweetId,this.isLike).subscribe({
+    if(Tweet.tweetText==null || Tweet.tweetText==""){
+      this.toastr.warning("Enter some text to post",'',{timeOut: 1000})
+      return
+    }
+
+    this.o =[];
+    var twt = Tweet.tweetText.match(/#[a-z0-9_]+/gi);
+    var t = Tweet.tweetText.split(/#[a-z0-9_]+/gi);
+    t.forEach(element => {
+      if(element == "" || element.length ==0|| element==null){
+       return
+      }
+      this.o.push(element.trim());
+    });
+    var txt = this.o[0];
+    Tweet.tweetText = txt;
+    Tweet.Tags = twt;
+    var x = Tweet;
+    this.tweetService.postTweet(x).subscribe({
       next:(res:any)=>{
-        console.log(res);
-        this.toastr.success(res.message);
-      },error:(err:any)=>console.error(err),
-      complete:()=> {
-          //this.isLike=true;
+        this.toastr.success(res.message,'',{timeOut: 1000});
+        this.getAllTweets();
+        this.reload();
+        this.ClearTweet();
+        this.modalService.dismissAll();
+      },
+      error:(err:any)=>{
+        this.toastr.warning(err.error.message,'',{timeOut: 1000});
+        console.error(err)
+      },
+      complete() {
           console.log("Post Tweeted success");
       }
     })
@@ -111,10 +133,12 @@ export class HomeComponent implements OnInit {
   ClearTweet(){
     this.PostTweetForm.reset();
   }
-
-   logOut() {
-    localStorage.removeItem("jwt");
-    this.router.navigate(['/login']);
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
+
 
 }

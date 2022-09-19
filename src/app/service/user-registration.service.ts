@@ -14,6 +14,7 @@ import { userRegistration } from '../Models/UserRegistration';
 export class UserRegistrationService {
 
   url = configurl.apiServer.url + '/api/v1.0/users/';
+  urlLogin = configurl.apiServer.url + '/api/v1.0/login/';
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +28,12 @@ export class UserRegistrationService {
       {'Content-Type': 'application/json'}
       ) };
     return this.http.get(this.url+'allUsers',httpHeaders);
+  }
+
+  getUserByName(username:string):Observable<any>{
+    const httpHeaders = { headers:new HttpHeaders(
+      {'Content-Type': 'application/json'}
+      ) };
+    return this.http.get(configurl.apiServer.url + `/api/v1.0/user/search/${username}`,httpHeaders);
   }
 }

@@ -1,14 +1,43 @@
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-    <div class="container-fluid">
-        <h2 class="form-signin-heading">Login</h2>
-        <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
-        <br/>
-        <label for="username" class="sr-only">Email address</label>
-        <input type="email" id="username" name="username" ngModel class="form-control" placeholder="User Name" required autofocus>
-        <br/>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Password" required>
-        <br/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<h2>..</h2>
+<div class="container" id="container">
+    <div class="form-container sign-in-container">
+        <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+            <h1>Sign in</h1>
+
+            <input type="email" id="username" name="username" ngModel class="form-control" placeholder="User Name" required autofocus>
+            <input [type]="show ? 'text' : 'password'" id="password" name="password" [(ngModel)]='password' class="form-control" placeholder="Password" required>
+            <i *ngIf="password.length>0" [ngClass]="show?'far fa-eye':'fa fa-eye-slash'" (click)="showPass()" id="togglePassword" style="cursor: pointer;
+                position: absolute;
+                right: 60px;
+                bottom: 225px;"></i>
+
+            <a routerLink="/forgotPassword">Forgot your password?</a>
+            <button id="cursor" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        </form>
     </div>
-</form>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="cursor">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button id="cursor" routerLink="/registration" class="ghost">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>..</h2>
+<footer>
+    <p>
+        Created <i class="fa fa-heart"></i> by
+        <a target="_blank" href="https://florin-pop.com">Abhijit Sinha</a> - Get the code @
+        <a target="_blank" href="https://github.com/SAbhijit29/TweetApp">here</a>.
+    </p>
+</footer>

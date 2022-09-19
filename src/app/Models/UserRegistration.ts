@@ -7,4 +7,5 @@ export class userRegistration{
     confirmPassword?:string;
     phone?:any;
     email?:string;
+    image:any
 }

@@ -1,0 +1,68 @@
+.user-info {
+    margin-left: 20px;
+    margin-right: 90px;
+}
+
+.tweet-tags {
+    color: rgb(0, 4, 253);
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: -15px;
+}
+
+.img-avatar {
+    height: 65px;
+    width: 65px;
+}
+
+.tweet-name {
+    margin-top: -5px;
+    font-size: 26px;
+    font-weight: 400;
+    font-weight: bold;
+}
+
+.tweet-username {
+    margin-left: 10px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.603);
+    font-style: italic;
+    cursor: pointer;
+}
+
+
+/* mouse over link */
+
+.tweet-username:hover {
+    color: hotpink;
+}
+
+.tweet-msg {
+    padding: 10px 85px;
+    margin-top: -30px;
+}
+
+.tweet-text {
+    font-size: 24px;
+    font-family: inherit;
+}
+
+#icons {
+    place-content: center;
+}
+
+::ng-deep .modal-header {
+    justify-content: end !important;
+    /* border: none !important; */
+    background-color: white;
+}
+
+.bin-icon {
+    height: 30px;
+    cursor: pointer;
+}
+
+.bin {
+    justify-content: end !important;
+    cursor: pointer;
+}

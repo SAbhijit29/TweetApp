@@ -3,4 +3,5 @@ export class users{
     email?:string;
     username:string="";
     phone?:any;
+    image:any;
 }
