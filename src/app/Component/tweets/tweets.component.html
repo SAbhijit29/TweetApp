@@ -27,7 +27,7 @@
         <p>{{tweet.likes}}</p>
     </div>
     <div [ngClass]="isProfile && checkTrue(tweet.username)?'col-4':'col-6'" class="d-flex bin" id="icons">
-        <a><img *ngIf="isProfile && checkTrue(tweet.username)" (click)="open(del)" class="bin-icon" src="../../../assets/DeleteDustbin-512.webp">
+        <a><img *ngIf="isProfile && checkTrue(tweet.username)" (click)="open(del)" class="bin-icon" src="../../../assets/DeleteDustbin-512.png">
         </a>
     </div>
 </div>

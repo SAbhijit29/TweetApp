@@ -62,3 +62,13 @@
     width: 650px !important;
     margin-bottom: 50px;
 }
+
+.remaining {
+    font-family: cursive;
+    margin: 0;
+}
+
+.btn-post-tweet {
+    display: unset;
+    margin-right: 12px !important;
+}

@@ -20,3 +20,8 @@
     width: 500px;
     overflow: auto;
 }
+
+.remaining {
+    font-family: cursive;
+    display: unset;
+}

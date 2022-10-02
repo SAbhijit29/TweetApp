@@ -43,13 +43,20 @@ export class ForgotPasswordComponent implements OnInit {
       return;
      }
      this.toastr.success(response.message,'',{timeOut: 1000});
-     this.router.navigate(["/login"]);
-     window.location.reload();
+     this.router.navigate(["/login"]).then(()=>{
+      this.reload();
+     })
+     //window.location.reload();
     }, err => {
             this.toastr.error(err,'',{timeOut: 1000});
     });
   }
-
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
   showPass()
   {
           this.show = !this.show;

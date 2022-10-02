@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchTerm = '';
   closeResult = '';
   username:any;
+  noOftext:string=''
 
   myValueSub: Subscription = new Subscription();
 
@@ -53,8 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   this.getAllTweets();
     this.PostTweetForm = this.formbulider.group({
-      tweetText: [null, [Validators.required]],
-      tags: [null]
+      tweetText: [null, [Validators.required,Validators.maxLength(166)]],
+      tags: [null,Validators.maxLength(166)]
     });
         this.username = this.auth.getUsername();
      this.auth.content.subscribe((res:any)=>
@@ -64,8 +65,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  getAllTweets(){
-    this.myValueSub = this.tweetService.getAllTweets().subscribe({
+  async getAllTweets(){
+    this.myValueSub = (await this.tweetService.getAllTweets()).subscribe({
       next:(res:any)=>{
 
        if(res.result != null && res.result.length>0){
@@ -111,6 +112,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     var txt = this.o[0];
     Tweet.tweetText = txt;
+    if(twt==null){
+      twt=[];
+    }
     Tweet.Tags = twt;
     var x = Tweet;
     this.tweetService.postTweet(x).subscribe({

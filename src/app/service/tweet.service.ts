@@ -25,11 +25,11 @@ export class TweetService implements OnInit {
     this.usr = this.auth.getUsername();
   }
 
-  getAllTweets():Observable<any>{
+  async getAllTweets():Promise<Observable<any>>{
     const httpHeaders = { headers:new HttpHeaders(
       {'Content-Type': 'application/json'}
       ) };
-      return this.http.get(this.url+'all',httpHeaders);
+      return await this.http.get(this.url+'all',httpHeaders).pipe();
     }
 
     postTweet(tweet:tweets):Observable<any>{
@@ -46,11 +46,11 @@ export class TweetService implements OnInit {
         return this.http.patch(this.url+tweetId+"/update/"+this.usr,httpHeaders);
     }
 
-    getReply(tweetId:string):Observable<any>{
+    async getReply(tweetId:string):Promise<Observable<any>>{
       const httpHeaders = { headers:new HttpHeaders(
         {'Content-Type': 'application/json'}
         ) };
-        return this.http.get(this.url+"GetReplyById/"+tweetId,httpHeaders);
+        return await this.http.get(this.url+"GetReplyById/"+tweetId,httpHeaders).pipe();
     }
 
     postReply(tweet:tweets,tweetId:string):Observable<any>{

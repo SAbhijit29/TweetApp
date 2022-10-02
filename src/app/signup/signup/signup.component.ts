@@ -33,7 +33,8 @@ export class SignupComponent implements OnInit {
   username:string | null="";
 
   show: boolean=false;
-  password:string=''
+  password:string='';
+  confirmPassword:string=''
   constructor(private formbulider: UntypedFormBuilder, private toastr: ToastrService,private router: Router,private http: HttpClient ,private userservice:UserRegistrationService   ) { }
 
   ngOnInit(): void {
@@ -41,26 +42,36 @@ export class SignupComponent implements OnInit {
     this.registrationForm = this.formbulider.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      username: ['', [Validators.required,Validators.pattern("^[A-Za-z][A-Za-z0-9_]{2,14}.*$")]],
+      password: ['', [Validators.required,Validators.pattern("^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,26}$")]],
       confirmPassword: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required,Validators.pattern("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z]")]],
       phone: ['', [Validators.maxLength(10)]],
-      
-    });
 
+    });
   }
 
-  
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
+
   showPass()
   {
           this.show = !this.show;
   }
-  
+
   postUser(user: userRegistration) {
           if (this.registrationForm.invalid) {
             this.toastr.error("Invalid Form",'',{timeOut: 1000})
             return;
+        }
+
+        if(this.confirmPassword != this.password){
+          this.toastr.error("password and confirmPassword don't match")
+          return
         }
 
     const user_Master = JSON.stringify(user);
@@ -72,12 +83,14 @@ export class SignupComponent implements OnInit {
         next:(res:any)=>{
           if(res.statusCode==200){
             this.toastr.success(res.message,'',{timeOut: 1000});
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']).then(()=>{
+              window.location.reload();
+            });
           }
           else{
             this.toastr.error(res.message,'',{timeOut: 1000});
           }
-          
+
         },
         error:(err)=>{
           console.log(err)

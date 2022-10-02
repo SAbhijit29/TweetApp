@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
@@ -35,20 +35,33 @@ export class ProfileComponent implements OnInit {
   image : any;
   msg='';
 
-  constructor(private route: ActivatedRoute,private auth:AuthGuard,private http:HttpClient,
-    private formbuilder:UntypedFormBuilder, private modalService: NgbModal,private toastr:ToastrService,private userService: UserRegistrationService,private tweetService:TweetService) { }
+  constructor(private route: ActivatedRoute,private auth:AuthGuard,private http:HttpClient,private router: Router,
+    private formbuilder:UntypedFormBuilder, private modalService: NgbModal,private userService: UserRegistrationService,private tweetService:TweetService) { }
 
   ngOnInit(): void {
     this.usr = this.auth.getUsername();
     this.route.params.subscribe(params => {
       this.username = params['username'];
     });
-    this.getUserDetails();
-    this.getTweetsByUser();
+
+  //   this.router.events.subscribe((val) => {
+  //     // see also
+  //     debugger
+  //     console.log(val instanceof NavigationEnd)
+  //     this.route.params.subscribe(params => {
+  //       debugger
+  //       this.username = params['username'];
+
+  //     });
+
+  // });
+
+  this.getUserDetails();
+  this.getTweetsByUser();
 
     this.PostTweetForm = this.formbuilder.group({
-      tweetText: [null, [Validators.required]],
-      tags: [null]
+      tweetText: [null, [Validators.required,Validators.maxLength(166)]],
+      tags: [null,Validators.maxLength(166)]
     });
 
     if(this.username === this.usr){
@@ -71,6 +84,7 @@ export class ProfileComponent implements OnInit {
         this.getUserDetails();
     this.getTweetsByUser();
     window.location.reload();
+   // this.reload();
         },
         error:(err:any)=>{
           console.log(err)
@@ -78,8 +92,13 @@ export class ProfileComponent implements OnInit {
         complete:()=> {
          }
     })
+}
 
-
+reload(){
+  let currentUrl = this.router.url;
+  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  this.router.onSameUrlNavigation = 'reload';
+  this.router.navigate([currentUrl]);
 }
 
 autoGrowTextZone(e:any) {
@@ -88,7 +107,6 @@ autoGrowTextZone(e:any) {
 }
 
 open(content:any, tweet:any) {
-  debugger
   this.modalService.open(content,
  {ariaLabelledBy: 'modal-basic-title'}).result.then((result)  => {
     this.closeResult = `Closed with: ${result}`;
@@ -98,7 +116,7 @@ open(content:any, tweet:any) {
   });
    this.editId = tweet.id;
   this.PostTweetForm.patchValue({
-    tweetText : tweet.tweetText + tweet.tags,
+    tweetText : tweet.tweetText + tweet?.tags,
     tags :tweet.tags
   });
 }
@@ -117,7 +135,7 @@ private getDismissReason(reason: any): string {
     this.tweetService.getTweetByName(this.username).subscribe({
       next:(res:any)=>{
       if(res && res.result && res.result.length>0){
-        this.tweets.push(...res.result)
+        this.tweets.push(...res.result);
       }
       else{
         this.msg = "No tweets yet Posted.."

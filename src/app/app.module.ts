@@ -28,6 +28,7 @@ import { RippleModule } from 'primeng/ripple';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 //function is use to get jwt token from local storage
 export function tokenGetter() {
@@ -68,6 +69,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     NgbModule,
     InfiniteScrollModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
   ],
   providers: [AuthGuard,
     {

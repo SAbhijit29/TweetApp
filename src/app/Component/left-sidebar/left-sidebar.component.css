@@ -170,3 +170,9 @@
     font-size: 22px;
     align-items: center;
 }
+
+.remaining {
+    font-family: cursive;
+    margin: 0;
+    display: unset;
+}

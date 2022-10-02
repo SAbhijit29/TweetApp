@@ -11,18 +11,19 @@ import { ProfileComponent } from './Component/profile/profile.component';
 
 const routes: Routes = [
   { path: '',  component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
   { path: 'registration', component: SignupComponent },
-  { path: 'homepage', component: HomepageComponent },
+  { path: 'login', component: LoginComponent },
+
+  { path: 'homepage', component: HomepageComponent,canActivate: [AuthGuard] },
   { path:'forgotPassword', component:ForgotPasswordComponent},
-  { path:'tweet/:id', component:ReplyComponent},
-  { path:':username', component:ProfileComponent},
+  { path:'tweet/:id', component:ReplyComponent,canActivate: [AuthGuard]},
+  { path:'user/:username', component:ProfileComponent,canActivate: [AuthGuard]},
   { path: '**', redirectTo: '' },
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

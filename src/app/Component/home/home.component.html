@@ -5,12 +5,14 @@
             <img class="img-avatar-outer" src="https://avatars.dicebear.com/api/adventurer/'+{{username}}+'.svg">
             <img class="my-img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{username}}+'.svg">
             <form [formGroup]="PostTweetForm">
-                <textarea maxlength="144" placeholder="What's Going On?" formControlName="tweetText" class="post-tweet" (keyup)="autoGrowTextZone($event)" required></textarea>
+                <textarea [(ngModel)]="noOftext" maxlength="144" placeholder="What's Going On?" formControlName="tweetText" class="post-tweet" (keyup)="autoGrowTextZone($event)" required></textarea>
                 <hr class="line">
+                <p *ngIf="noOftext!=''" class="remaining"><span style="font-weight:bold;;">{{144 - noOftext.length}}</span> characters remaining!!</p><br>
                 <a id="cursor" (click)="postTweet(PostTweetForm.value)" type="submit" class="btn-post-tweet">Tweet</a>
             </form>
 
         </div>
+
         <div class="tweet-body" *ngFor="let tweet of allTweets ">
             <app-tweets [tweet]="tweet" (tweetEmitter)="reloadTweets($event)"></app-tweets>
         </div>

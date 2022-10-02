@@ -40,8 +40,8 @@ export class TweetsComponent implements OnInit,OnDestroy {
   }
 
   viewProfile(username:string){
-     this.router.navigate([`/${username}`]).then(() => {
-       window.location.reload();
+     this.router.navigate([`/user/${username}`]).then(() => {
+      this.reload();
      });
    }
 
@@ -88,13 +88,15 @@ export class TweetsComponent implements OnInit,OnDestroy {
     this.tweetService.deleteTweet(tweetId).subscribe({
       next:(res:any)=>{
         this.toastr.success("Post deleted successfully",'',{timeOut: 1000});
+        this.modalService.dismissAll();
        this.viewProfile(this.username);
         },
         error:(err:any)=>{
           console.log(err)
         },
         complete:()=> {
-          location.reload();
+          //location.reload();
+          this.reload();
          }
     })
   }

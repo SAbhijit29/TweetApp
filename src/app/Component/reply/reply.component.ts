@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AuthGuard } from 'src/app/guards/auth-guard.service';
@@ -28,9 +28,11 @@ export class ReplyComponent implements OnInit {
     Tags:[]
   }
 
+  noOftext:string=''
+
   username:any;
 
-  constructor(private formbulider: UntypedFormBuilder,private route: ActivatedRoute,private toastr: ToastrService, private modalService: NgbModal,
+  constructor(private formbulider: UntypedFormBuilder,private router: Router,private route: ActivatedRoute,private toastr: ToastrService, private modalService: NgbModal,
     private tweetService:TweetService,private guard:AuthGuard) { }
 
   ngOnInit(): void {
@@ -40,16 +42,16 @@ export class ReplyComponent implements OnInit {
     });
     this.getReplies(this.id);
     this.PostTweetForm = this.formbulider.group({
-      tweetText: [null, [Validators.required]],
-      tags: [null]
+      tweetText: [null, [Validators.required,Validators.maxLength(166)]],
+      tags: [null,Validators.maxLength(166)]
     });
 
 
   }
 
-    getReplies(tweetId:string){
+    async getReplies(tweetId:string){
     this.listReply=[];
-    this.tweetService.getReply(tweetId).subscribe({
+    (await this.tweetService.getReply(tweetId)).subscribe({
       next:(res:any)=>{
         if(this.tweet.fullname !== "") this.listReply.push(res.result);
         var result = res.result.replyID;
@@ -83,7 +85,7 @@ export class ReplyComponent implements OnInit {
   }
 
   postReply(Tweet:tweets,id:string){
-    if(Tweet.tweetText == null){
+    if(Tweet.tweetText == null || this.noOftext.length==0){
       this.toastr.warning("Please enter something..",'',{timeOut: 1000})
       return;
     }
@@ -91,6 +93,9 @@ export class ReplyComponent implements OnInit {
     var t = Tweet.tweetText.split(/#[a-z0-9_]+/gi);
     var txt = t[0];
     Tweet.tweetText = txt;
+    if(twt==null){
+      twt=[];
+    }
     Tweet.Tags = twt;
     var x = Tweet;
 
@@ -100,6 +105,7 @@ export class ReplyComponent implements OnInit {
         this.toastr.success(res.message,'',{timeOut: 1000});
         this.getReplies(this.id);
         this.ClearTweet();
+        this.reload();
       },
       error:(err:any)=>{
         this.toastr.warning(err.error.message,'',{timeOut: 1000});
@@ -113,6 +119,12 @@ export class ReplyComponent implements OnInit {
 
   ClearTweet(){
     this.PostTweetForm.reset();
+  }
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 
 }

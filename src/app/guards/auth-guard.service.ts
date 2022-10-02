@@ -22,12 +22,13 @@ export class AuthGuard implements CanActivate {
         return true;
       }
       //this.toastr.warning("session time out..",'',{timeOut:1000});
-      this.router.navigate(['/login']);
+     // this.router.navigate(['/login']);
       return false;
     });
    }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
    //get the jwt token which are present in the local storage
+   debugger
    const token = localStorage.getItem("jwt");
    //Check if the token is expired or not and if token is expired then redirect to login page and return false
    if (token && !this.jwtHelper.isTokenExpired(token)){

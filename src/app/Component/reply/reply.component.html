@@ -28,14 +28,18 @@
                     <p>{{tweet.likedBy.length}}</p>
                 </div>
             </div>
+
         </div>
+        <hr>
         <div class="post-tweet-box d-flex">
             <img class="my-img-avatar" src="https://avatars.dicebear.com/api/adventurer/'+{{username}}+'.svg">
             <form [formGroup]="PostTweetForm">
-                <textarea required maxlength="144" placeholder="Reply Here..." formControlName="tweetText" class="post-tweet2 post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
+                <textarea [(ngModel)]="noOftext" required maxlength="144" placeholder="Reply Here..." formControlName="tweetText" class="post-tweet2 post-tweet" (keyup)="autoGrowTextZone($event)"></textarea>
                 <hr class="line">
+                <p *ngIf="noOftext!=''" class="remaining"><span style="font-weight:bold;">{{144 - noOftext.length}}</span> characters remaining!!</p><br>
                 <a id="cursor" type="submit" (click)="postReply(PostTweetForm.value,tweet.id)" class="btn-post-tweet">Reply</a>
             </form>
+
         </div>
         <div *ngFor="let tweet of listReply">
             <app-tweets (tweetEmitter)="reloadReplys($event)" [tweet]="tweet">

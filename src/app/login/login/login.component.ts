@@ -35,6 +35,15 @@ export class LoginComponent implements OnInit {
           this.show = !this.show;
   }
 
+
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
+
+
   public login = (form: NgForm) => {
 
     const credentials = JSON.stringify(form.value);
@@ -52,7 +61,9 @@ export class LoginComponent implements OnInit {
         this.invalidLogin = false;
         var str = "Welcome, "+username;
         this.toastr.success(str,'',{timeOut: 1000});
-        this.router.navigate([""]);
+        this.router.navigate([""]).then(()=>{
+          this.reload();
+        });
       },
       error:(err:any)=>{
         this.invalidLogin = true;

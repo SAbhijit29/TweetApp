@@ -33,6 +33,7 @@ export class LeftSidebarComponent implements OnInit {
   ex: boolean=false;
   count: any;
   o:any[]=[];
+  noOftext:string=''
 
   constructor(private formbulider: UntypedFormBuilder,private auth:AuthGuard,
     private modalService: NgbModal,private router:Router,private toastr: ToastrService,
@@ -71,6 +72,9 @@ export class LeftSidebarComponent implements OnInit {
     });
     var txt = this.o[0];
     Tweet.tweetText = txt;
+    if(twt==null){
+      twt=[];
+    }
     Tweet.Tags = twt;
     var x = Tweet;
     this.tweetService.postTweet(x).subscribe({
@@ -79,7 +83,7 @@ export class LeftSidebarComponent implements OnInit {
         this.tweetEmitter.emit('');
         this.ClearTweet();
         this.modalService.dismissAll();
-        window.location.reload();
+        this.reload();
       },
       error:(err:any)=>{
         this.toastr.warning(err.error.message,'',{timeOut: 1000});
@@ -100,7 +104,7 @@ export class LeftSidebarComponent implements OnInit {
     localStorage.removeItem("username");
     localStorage.clear();
     this.router.navigate(['/login']).then(()=>{
-      window.location.reload();
+window.location.reload();
     });
   }
 
@@ -116,9 +120,17 @@ export class LeftSidebarComponent implements OnInit {
   }
 
   viewProfile(){
-    this.router.navigate([`/${this.username}`]).then(() => {
-      window.location.reload();
+    this.router.navigate([`/user/${this.username}`]).then(() => {
+     // window.location.reload();
+     this.reload();
     });
+  }
+
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 
   private getDismissReason(reason: any): string {

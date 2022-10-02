@@ -43,9 +43,16 @@ export class RightSidebarComponent implements OnInit {
   }
 
   viewProfile(username:string){
-    this.router.navigate([`/${username}`]).then(() => {
-      window.location.reload();
+    this.router.navigate([`/user/${username}`]).then(() => {
+      this.reload();
     });
+  }
+
+  reload(){
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 
   downloadImage(image:any){
